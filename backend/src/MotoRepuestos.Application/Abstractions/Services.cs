@@ -37,6 +37,9 @@ public interface IImageStorage
     /// <summary>Stores the image and returns the generated file name.</summary>
     Task<string> SaveAsync(Stream content, string extension, CancellationToken cancellationToken = default);
     void Delete(string fileName);
+
+    /// <summary>False when storing <paramref name="bytes"/> more would exceed the configured quota.</summary>
+    bool HasRoomFor(long bytes);
 }
 
 public interface IRichTextSanitizer

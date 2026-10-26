@@ -203,6 +203,10 @@ public sealed class ProductService(
         if (!ProductImages.HasValidSignature(buffer.GetBuffer().AsSpan(0, (int)Math.Min(buffer.Length, 16))))
             return InvalidImage("El archivo no es una imagen válida.");
 
+        if (!imageStorage.HasRoomFor(buffer.Length))
+            return Error.Conflict("product.image_storage_full",
+                "Se alcanzó el espacio máximo para imágenes. Eliminá imágenes que no uses o intentá más tarde.");
+
         buffer.Position = 0;
         var newFileName = await imageStorage.SaveAsync(buffer, extension.ToLowerInvariant(), ct);
         var previous = product.ImageFileName;
