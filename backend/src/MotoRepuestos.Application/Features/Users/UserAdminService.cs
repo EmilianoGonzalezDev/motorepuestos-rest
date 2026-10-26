@@ -38,6 +38,7 @@ public sealed class UserAdminService(
     ICurrentUser currentUser,
     IPasswordHasher passwordHasher,
     TimeProvider clock,
+    IDemoMode demoMode,
     IValidator<CreateAdminRequest> createAdminValidator)
 {
     public async Task<PagedResponse<UserAdminDto>> ListAsync(UserListQuery query, CancellationToken ct = default)
@@ -95,6 +96,9 @@ public sealed class UserAdminService(
         var user = await db.Users.Include(u => u.RefreshTokens).FirstOrDefaultAsync(u => u.Id == userId, ct);
         if (user is null)
             return Error.NotFound("user.not_found", "Usuario no encontrado.");
+
+        if (!isActive && demoMode.IsProtectedAccount(user.Email))
+            return DemoErrors.AccountCannotBeDisabled;
 
         if (isActive)
         {

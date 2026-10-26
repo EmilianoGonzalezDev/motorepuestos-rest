@@ -27,6 +27,7 @@ services:
       Jwt__SigningKey: ${JWT_SIGNING_KEY:-change-me-please-use-at-least-32-random-characters}
       Cors__AllowedOrigins__0: http://localhost:8080
       Seed__DemoOrders: "true"
+      Demo__Enabled: "true"
     volumes:
       - product-images:/data/images
     depends_on:

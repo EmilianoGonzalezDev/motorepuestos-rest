@@ -36,6 +36,7 @@ public sealed class AccountService(
     IPasswordHasher passwordHasher,
     ITokenService tokenService,
     TimeProvider clock,
+    IDemoMode demoMode,
     IValidator<UpdateProfileRequest> profileValidator,
     IValidator<ChangePasswordRequest> passwordValidator)
 {
@@ -47,11 +48,12 @@ public sealed class AccountService(
 
     public async Task<Result<UserDto>> UpdateProfileAsync(UpdateProfileRequest request, CancellationToken ct = default)
     {
-        if (await profileValidator.ValidateToErrorAsync(request, ct) is { } validationError)
-            return validationError;
-
         var user = await FindCurrentUserAsync(includeTokens: false, ct);
         if (user is null) return UserNotFound();
+        if (demoMode.IsProtectedAccount(user.Email)) return DemoErrors.AccountLocked;
+
+        if (await profileValidator.ValidateToErrorAsync(request, ct) is { } validationError)
+            return validationError;
 
         var email = User.NormalizeEmail(request.Email);
         if (email != user.Email && await db.Users.AnyAsync(u => u.Email == email && u.Id != user.Id, ct))
@@ -68,11 +70,12 @@ public sealed class AccountService(
     public async Task<Result> ChangePasswordAsync(
         ChangePasswordRequest request, string? currentRefreshToken, CancellationToken ct = default)
     {
-        if (await passwordValidator.ValidateToErrorAsync(request, ct) is { } validationError)
-            return validationError;
-
         var user = await FindCurrentUserAsync(includeTokens: true, ct);
         if (user is null) return UserNotFound();
+        if (demoMode.IsProtectedAccount(user.Email)) return DemoErrors.AccountLocked;
+
+        if (await passwordValidator.ValidateToErrorAsync(request, ct) is { } validationError)
+            return validationError;
 
         if (!passwordHasher.Verify(user, user.PasswordHash, request.CurrentPassword))
             return Error.Validation("account.wrong_password", "La contraseña actual es incorrecta.",

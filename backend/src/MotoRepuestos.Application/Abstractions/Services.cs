@@ -46,3 +46,15 @@ public interface IRichTextSanitizer
 {
     string Sanitize(string html);
 }
+
+/// <summary>
+/// Public demo settings. Its accounts are shared by every visitor, so nobody may change their
+/// credentials or disable them and lock the others out.
+/// </summary>
+public interface IDemoMode
+{
+    bool IsEnabled { get; }
+
+    /// <summary>True for the shared demo accounts while demo mode is on.</summary>
+    bool IsProtectedAccount(string email);
+}

@@ -54,6 +54,7 @@ public sealed class ApiFixture : IAsyncLifetime
             ["RateLimiting__WritesPermitPerMinute"] = "100000",
             ["RateLimiting__DemoResetPermitPerMinute"] = "100000",
             ["ImageStorage__RootPath"] = _storagePath,
+            ["Demo__Enabled"] = "true",
             ["Seed__Enabled"] = "true",
             ["Seed__DemoOrders"] = "false",
             ["Seed__ImagesPath"] = Path.Combine(AppContext.BaseDirectory, "SeedData", "images")
