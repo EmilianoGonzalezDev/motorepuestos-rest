@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
@@ -6,6 +6,7 @@ import {
   Cart,
   CatalogCategory,
   CatalogQuery,
+  DemoStatus,
   OrderDetail,
   OrderStatus,
   OrderSummary,
@@ -118,6 +119,15 @@ export class FavoritesApi {
 
   remove(productId: number): Observable<void> {
     return this.http.delete<void>(`/api/favorites/${productId}`);
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class DemoApi {
+  private readonly http = inject(HttpClient);
+
+  status(context?: HttpContext): Observable<DemoStatus> {
+    return this.http.get<DemoStatus>('/api/demo', { context });
   }
 }
 

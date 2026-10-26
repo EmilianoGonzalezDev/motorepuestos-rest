@@ -5,6 +5,7 @@ import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } 
 import { catchError, debounceTime, of, startWith, switchMap } from 'rxjs';
 import { AdminApi } from '../../core/api/admin.api';
 import { AuthService } from '../../core/auth/auth.service';
+import { DemoStore } from '../../core/demo/demo.store';
 import { applyServerErrors, errorMessage } from '../../core/http/http-utils';
 import { UserAdmin, UserRole } from '../../core/models/api.models';
 import { ConfirmService } from '../../core/ui/confirm.service';
@@ -52,7 +53,13 @@ import { passwordStrength } from '../../shared/validators';
                   <td>
                     <div class="flex items-center gap-3">
                       <span class="grid size-9 place-items-center rounded-full bg-brand-500/15 text-sm font-bold text-brand-700 dark:text-brand-300">{{ u.fullName.charAt(0) }}</span>
-                      <div><p class="font-medium">{{ u.fullName }}</p><p class="text-xs text-muted">{{ u.email }}</p></div>
+                      <div>
+                        <p class="font-medium">
+                          {{ u.fullName }}
+                          @if (demo.isDemoAccount(u.email)) { <span class="badge ml-1 bg-amber-500/15 text-amber-700 dark:text-amber-300" title="Cuenta demo protegida">Demo</span> }
+                        </p>
+                        <p class="text-xs text-muted">{{ u.email }}</p>
+                      </div>
                     </div>
                   </td>
                   <td><span class="badge" [class]="u.role === 'Client' ? 'bg-surface-2' : 'bg-brand-500/10 text-brand-700 dark:text-brand-300'">{{ u.role | role }}</span></td>
@@ -61,7 +68,7 @@ import { passwordStrength } from '../../shared/validators';
                   <td class="text-muted">{{ u.lastLoginAt ? (u.lastLoginAt | timeAgo) : 'Nunca' }}</td>
                   <td><span class="badge" [class]="u.isActive ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-red-500/10 text-red-700 dark:text-red-300'">{{ u.isActive ? 'Activo' : 'Deshabilitado' }}</span></td>
                   <td class="text-right">
-                    @if (auth.isSuperAdmin() && u.role !== 'SuperAdmin' && u.id !== auth.user()?.id) {
+                    @if (auth.isSuperAdmin() && u.role !== 'SuperAdmin' && u.id !== auth.user()?.id && !(u.isActive && demo.isDemoAccount(u.email))) {
                       <button class="btn-icon size-9" (click)="toggle(u)" [attr.aria-label]="u.isActive ? 'Deshabilitar' : 'Habilitar'"><app-icon [name]="u.isActive ? 'ban' : 'check'" [size]="16" /></button>
                     }
                   </td>
@@ -96,6 +103,7 @@ export class AdminUsersPage {
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
   protected readonly auth = inject(AuthService);
+  protected readonly demo = inject(DemoStore);
 
   protected readonly search = signal('');
   protected readonly role = signal<UserRole | null>(null);

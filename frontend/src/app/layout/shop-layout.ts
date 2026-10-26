@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../core/auth/auth.service';
 import { CartStore } from '../core/cart/cart.store';
+import { DemoStore } from '../core/demo/demo.store';
 import { ThemeService } from '../core/ui/theme.service';
 import { ToastService } from '../core/ui/toast.service';
 import { Icon } from '../shared/components/icon';
@@ -36,9 +37,23 @@ export class Logo {}
   template: `
     <div class="flex min-h-dvh flex-col">
       <div class="bg-zinc-950 text-zinc-300">
-        <div class="container-page flex h-9 items-center justify-between text-xs">
-          <span class="flex items-center gap-1.5"><app-icon name="truck" [size]="14" /> Retiro en el local · Pagos con tarjeta o transferencia</span>
-          <span class="hidden items-center gap-1.5 sm:flex"><app-icon name="phone" [size]="14" /> (011) 4555-0000 · Lun a Sáb 9 a 19 h</span>
+        <div class="container-page flex h-9 items-center justify-between gap-3 text-xs">
+          @if (demo.enabled()) {
+            <span class="flex min-w-0 items-center gap-1.5">
+              <app-icon name="sparkles" [size]="14" class="text-amber-400" />
+              <span class="truncate">
+                <strong class="font-semibold text-zinc-100">Demo de portfolio</strong> · Datos ficticios que se restablecen cada {{ demo.resetIntervalHours() }} h<span class="hidden md:inline"> · El pago con tarjeta es simulado</span>
+              </span>
+            </span>
+            @if (!auth.isAuthenticated()) {
+              <a routerLink="/ingresar" class="flex shrink-0 items-center gap-1.5 font-semibold text-amber-300 hover:text-amber-200">
+                <app-icon name="log-in" [size]="14" /> <span class="hidden sm:inline">Probar con una cuenta demo</span><span class="sm:hidden">Cuentas demo</span>
+              </a>
+            }
+          } @else {
+            <span class="flex items-center gap-1.5"><app-icon name="truck" [size]="14" /> Retiro en el local · Pagos con tarjeta o transferencia</span>
+            <span class="hidden items-center gap-1.5 sm:flex"><app-icon name="phone" [size]="14" /> (011) 4555-0000 · Lun a Sáb 9 a 19 h</span>
+          }
         </div>
       </div>
 
@@ -155,6 +170,7 @@ export class Logo {}
 export class ShopLayout {
   protected readonly auth = inject(AuthService);
   protected readonly cart = inject(CartStore);
+  protected readonly demo = inject(DemoStore);
   protected readonly theme = inject(ThemeService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);

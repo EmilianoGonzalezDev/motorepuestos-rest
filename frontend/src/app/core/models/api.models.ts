@@ -241,3 +241,18 @@ export interface Dashboard {
 export interface Settings {
   lowStockThreshold: number;
 }
+
+export interface DemoAccount {
+  label: string;
+  email: string;
+}
+
+/** Public demo settings (GET /api/demo). */
+export interface DemoStatus {
+  enabled: boolean;
+  password: string | null;
+  accounts: DemoAccount[];
+  lastResetAt: string | null;
+  nextResetAt: string | null;
+  resetIntervalHours: number;
+}

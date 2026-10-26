@@ -147,4 +147,9 @@ export class AdminApi {
   setUserStatus(id: number, isActive: boolean): Observable<void> {
     return this.http.patch<void>(`/api/users/${id}/status`, { isActive });
   }
+
+  // Demo
+  resetDemo(): Observable<{ resetAt: string }> {
+    return this.http.post<{ resetAt: string }>('/api/demo/reset-now', null);
+  }
 }

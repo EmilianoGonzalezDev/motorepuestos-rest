@@ -5,6 +5,7 @@ import { ThemeService } from '../../core/ui/theme.service';
 import { Logo } from '../../layout/shop-layout';
 import { Icon, IconName } from '../../shared/components/icon';
 import { RolePipe } from '../../shared/pipes';
+import { DemoAdminBanner } from './demo-banner';
 
 interface NavItem {
   path: string;
@@ -15,7 +16,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Icon, Logo, RolePipe],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Icon, Logo, RolePipe, DemoAdminBanner],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex min-h-dvh">
@@ -58,6 +59,7 @@ interface NavItem {
             <button class="btn-icon" (click)="logout()" aria-label="Cerrar sesión"><app-icon name="log-out" /></button>
           </div>
         </header>
+        <app-demo-admin-banner />
         <main class="flex-1 p-4 sm:p-6 lg:p-8"><router-outlet /></main>
       </div>
     </div>

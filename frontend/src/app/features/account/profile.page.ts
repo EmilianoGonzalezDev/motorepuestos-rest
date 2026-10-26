@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthApi } from '../../core/api/store.api';
 import { AuthService } from '../../core/auth/auth.service';
+import { DemoStore } from '../../core/demo/demo.store';
 import { applyServerErrors, errorMessage } from '../../core/http/http-utils';
 import { ToastService } from '../../core/ui/toast.service';
 import { Icon } from '../../shared/components/icon';
@@ -16,6 +17,15 @@ import { PasswordMeter } from '../auth/register.page';
   imports: [ReactiveFormsModule, Icon, FieldError, Spinner, RolePipe, PasswordMeter],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    @if (demo.isCurrentUserDemo()) {
+      <div class="mb-6 flex gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+        <app-icon name="lock" [size]="18" class="mt-0.5 text-amber-600" />
+        <div>
+          <p class="font-semibold">Cuenta demo de solo lectura</p>
+          <p class="text-muted">Para que la demo funcione para todos, el nombre, el email y la contraseña de las cuentas demo no se pueden cambiar. Registrá una cuenta propia para probar estas funciones.</p>
+        </div>
+      </div>
+    }
     <div class="grid gap-6 lg:grid-cols-2">
       <form class="card space-y-4 p-6" [formGroup]="profile" (ngSubmit)="saveProfile()">
         <div class="flex items-center gap-4">
@@ -61,7 +71,7 @@ import { PasswordMeter } from '../auth/register.page';
           <input id="repeat" type="password" class="input" formControlName="repeatPassword" autocomplete="new-password" />
           <app-field-error [control]="password.controls.repeatPassword" />
         </div>
-        <button class="btn btn-primary" [disabled]="savingPassword()">
+        <button class="btn btn-primary" [disabled]="savingPassword() || password.disabled">
           @if (savingPassword()) { <app-spinner /> } @else { <app-icon name="lock" [size]="16" /> } Actualizar contraseña
         </button>
       </form>
@@ -73,6 +83,7 @@ export class ProfilePage {
   private readonly toast = inject(ToastService);
   private readonly fb = inject(NonNullableFormBuilder);
   protected readonly auth = inject(AuthService);
+  protected readonly demo = inject(DemoStore);
 
   protected readonly savingProfile = signal(false);
   protected readonly savingPassword = signal(false);
@@ -92,6 +103,17 @@ export class ProfilePage {
   );
 
   protected readonly newPasswordValue = toSignal(this.password.controls.newPassword.valueChanges, { initialValue: '' });
+
+  constructor() {
+    // The API rejects these changes for demo accounts anyway; disabling the forms explains it up front.
+    effect(() => {
+      const readOnly = this.demo.isCurrentUserDemo();
+      for (const form of [this.profile, this.password]) {
+        if (readOnly) form.disable();
+        else form.enable();
+      }
+    });
+  }
 
   protected saveProfile(): void {
     if (this.profile.invalid) return this.profile.markAllAsTouched();

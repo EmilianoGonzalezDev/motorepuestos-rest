@@ -22,6 +22,7 @@ import {
 import { routes } from './app.routes';
 import { AuthService } from './core/auth/auth.service';
 import { CartStore } from './core/cart/cart.store';
+import { DemoStore } from './core/demo/demo.store';
 import { FavoritesStore } from './core/favorites/favorites.store';
 import { authInterceptor, errorToastInterceptor } from './core/http/interceptors';
 
@@ -55,6 +56,8 @@ export const appConfig: ApplicationConfig = {
       // Stores subscribe to auth events, so they must exist before the session is restored.
       inject(CartStore);
       inject(FavoritesStore);
+      // Not awaited: the demo banner can appear a moment later without delaying the first render.
+      void inject(DemoStore).load();
       return inject(AuthService).restoreSession();
     }),
   ],

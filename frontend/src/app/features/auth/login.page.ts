@@ -2,16 +2,11 @@ import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angu
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
+import { DemoStore } from '../../core/demo/demo.store';
 import { errorMessage } from '../../core/http/http-utils';
 import { ToastService } from '../../core/ui/toast.service';
 import { Icon } from '../../shared/components/icon';
 import { FieldError, Spinner } from '../../shared/components/ui';
-
-const DEMO_ACCOUNTS = [
-  { label: 'Cliente', email: 'cliente@motorepuestos.com' },
-  { label: 'Admin', email: 'admin@motorepuestos.com' },
-  { label: 'Super admin', email: 'superadmin@motorepuestos.com' },
-];
 
 @Component({
   selector: 'app-login-page',
@@ -62,14 +57,21 @@ const DEMO_ACCOUNTS = [
           </p>
         </div>
 
-        <div class="mt-4 rounded-2xl border border-dashed border-line p-4 text-sm">
-          <p class="mb-2 flex items-center gap-2 font-semibold"><app-icon name="sparkles" [size]="16" class="text-brand-600" /> Cuentas demo (contraseña <code>Demo1234!</code>)</p>
-          <div class="flex flex-wrap gap-2">
-            @for (d of demoAccounts; track d.email) {
-              <button type="button" class="btn btn-secondary btn-sm" (click)="fillDemo(d.email)">{{ d.label }}</button>
-            }
+        @if (demo.enabled()) {
+          <div class="mt-4 rounded-2xl border border-dashed border-line p-4 text-sm">
+            <p class="flex items-center gap-2 font-semibold"><app-icon name="sparkles" [size]="16" class="text-brand-600" /> Acceso rápido a la demo</p>
+            <p class="mt-1 mb-3 text-xs text-muted">Ingresá con un clic. Contraseña de todas las cuentas: <code>{{ demo.password() }}</code></p>
+            <div class="grid gap-2 sm:grid-cols-3">
+              @for (d of demo.accounts(); track d.email) {
+                <button type="button" class="btn btn-secondary btn-sm flex-col items-center py-2" (click)="loginAs(d.email)" [disabled]="loading()"
+                        [attr.aria-label]="'Ingresar como ' + d.label">
+                  <span class="font-semibold">{{ d.label }}</span>
+                  <span class="max-w-full truncate text-[11px] font-normal text-muted">{{ d.email }}</span>
+                </button>
+              }
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
   `,
@@ -81,7 +83,7 @@ export class LoginPage {
 
   readonly returnUrl = input<string>();
 
-  protected readonly demoAccounts = DEMO_ACCOUNTS;
+  protected readonly demo = inject(DemoStore);
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly showPassword = signal(false);
@@ -91,8 +93,9 @@ export class LoginPage {
     password: ['', Validators.required],
   });
 
-  protected fillDemo(email: string): void {
-    this.form.setValue({ email, password: 'Demo1234!' });
+  protected loginAs(email: string): void {
+    this.form.setValue({ email, password: this.demo.password() ?? '' });
+    this.submit();
   }
 
   protected submit(): void {
