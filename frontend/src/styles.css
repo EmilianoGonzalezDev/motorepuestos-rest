@@ -164,4 +164,24 @@
   .rich-text strong {
     @apply font-semibold text-fg;
   }
+
+  /* Pre-boot splash in index.html (plain CSS: it renders before Angular). The "waking up" text only
+     appears if booting takes more than a moment, so regular loads just show a spinner. */
+  .boot-splash {
+    @apply fixed inset-0 grid place-content-center justify-items-center gap-4 bg-bg p-6 text-center font-sans text-sm text-muted;
+  }
+  .boot-spinner {
+    @apply block size-10 animate-spin rounded-full border-[3px] border-line border-t-brand-600;
+  }
+  .boot-slow {
+    @apply max-w-xs opacity-0;
+    animation: boot-reveal 0.3s ease-out 2.5s forwards;
+  }
+  .boot-title {
+    @apply mb-1 text-base font-semibold text-fg;
+  }
+}
+
+@keyframes boot-reveal {
+  to { opacity: 1; }
 }

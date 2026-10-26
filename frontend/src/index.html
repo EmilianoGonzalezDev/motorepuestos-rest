@@ -23,6 +23,15 @@
   </script>
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <!-- Shown until Angular boots; restoring a session may wait for a sleeping server to wake up. -->
+    <div class="boot-splash" role="status">
+      <span class="boot-spinner"></span>
+      <div class="boot-slow">
+        <p class="boot-title">Despertando el servidor…</p>
+        <p>La primera carga puede tardar hasta un minuto.</p>
+      </div>
+    </div>
+  </app-root>
 </body>
 </html>

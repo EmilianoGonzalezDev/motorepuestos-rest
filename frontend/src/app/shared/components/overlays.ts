@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ServerStatus } from '../../core/http/server-status';
 import { ConfirmService } from '../../core/ui/confirm.service';
 import { ToastKind, ToastService } from '../../core/ui/toast.service';
 import { Icon, IconName } from './icon';
@@ -50,6 +51,55 @@ export class ToastHost {
   protected readonly toasts = inject(ToastService);
   protected readonly icon = TOAST_ICON;
   protected readonly color = TOAST_COLOR;
+}
+
+/** Full-screen notice while the sleeping demo server and database wake up (requests retry on their own). */
+@Component({
+  selector: 'app-warmup-overlay',
+  imports: [Icon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @if (server.state() !== 'ready') {
+      <div class="fixed inset-0 z-[80] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm animate-fade-in" role="status" aria-live="polite">
+        <div class="card w-full max-w-md p-6 text-center animate-pop-in">
+          @if (server.state() === 'warming') {
+            <span class="mx-auto block size-10 animate-spin rounded-full border-[3px] border-line border-t-brand-600"></span>
+            <h2 class="mt-4 text-2xl font-bold uppercase">Despertando el servidor…</h2>
+            <p class="mt-2 text-sm text-muted">
+              La demo corre en planes gratuitos de Azure que se suspenden cuando no hay visitas. La primera carga puede tardar
+              hasta un minuto: esta pantalla se cierra sola cuando todo esté listo.
+            </p>
+            @if (slow()) {
+              <p class="mt-4 text-sm font-medium">Está tardando más de lo normal.</p>
+              <button class="btn btn-secondary btn-sm mt-3" (click)="reload()"><app-icon name="refresh" [size]="14" /> Reintentar</button>
+            }
+          } @else {
+            <span class="mx-auto grid size-12 place-items-center rounded-full bg-amber-500/10 text-amber-600"><app-icon name="alert" [size]="24" /></span>
+            <h2 class="mt-4 text-2xl font-bold uppercase">La demo no está disponible en este momento</h2>
+            <p class="mt-2 text-sm text-muted">Puede que se haya agotado la cuota gratuita mensual de la base de datos. Probá de nuevo más tarde.</p>
+            <button class="btn btn-secondary btn-sm mt-4" (click)="reload()"><app-icon name="refresh" [size]="14" /> Reintentar</button>
+          }
+        </div>
+      </div>
+    }
+  `,
+})
+export class WarmupOverlay {
+  protected readonly server = inject(ServerStatus);
+  protected readonly slow = signal(false);
+
+  constructor() {
+    effect((onCleanup) => {
+      this.slow.set(false);
+      if (this.server.state() !== 'warming') return;
+      const timer = setTimeout(() => this.slow.set(true), 60_000);
+      onCleanup(() => clearTimeout(timer));
+    });
+  }
+
+  protected reload(): void {
+    location.reload();
+  }
 }
 
 @Component({

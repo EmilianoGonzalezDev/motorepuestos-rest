@@ -24,7 +24,7 @@ import { AuthService } from './core/auth/auth.service';
 import { CartStore } from './core/cart/cart.store';
 import { DemoStore } from './core/demo/demo.store';
 import { FavoritesStore } from './core/favorites/favorites.store';
-import { authInterceptor, errorToastInterceptor } from './core/http/interceptors';
+import { authInterceptor, errorToastInterceptor, warmupInterceptor } from './core/http/interceptors';
 
 registerLocaleData(localeEsAr);
 
@@ -48,7 +48,7 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
     ),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor, errorToastInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([warmupInterceptor, authInterceptor, errorToastInterceptor])),
     { provide: TitleStrategy, useClass: AppTitleStrategy },
     { provide: LOCALE_ID, useValue: 'es-AR' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'ARS' },
