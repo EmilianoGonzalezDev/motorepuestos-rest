@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MotoRepuestos.Application.Abstractions;
@@ -30,6 +31,9 @@ public static class DependencyInjection
                 sql.MigrationsHistoryTable("__EFMigrationsHistory");
             });
             options.AddInterceptors(sp.GetRequiredService<AuditableEntityInterceptor>());
+            // The only explicit transaction (demo reset) runs inside the execution strategy and is retried as a
+            // whole, so EF's savepoints aren't needed; without this, MARS connection strings log a warning per save.
+            options.ConfigureWarnings(w => w.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS));
         });
         services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
