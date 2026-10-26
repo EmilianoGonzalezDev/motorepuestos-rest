@@ -12,6 +12,7 @@ namespace MotoRepuestos.Infrastructure.BackgroundJobs;
 /// </summary>
 internal sealed class GuestCartCleanupService(
     IServiceScopeFactory scopeFactory,
+    AppReadiness readiness,
     TimeProvider clock,
     ILogger<GuestCartCleanupService> logger) : BackgroundService
 {
@@ -21,6 +22,7 @@ internal sealed class GuestCartCleanupService(
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         // Let the app finish starting (migrations/seed) before the first run.
+        await readiness.WaitUntilReadyAsync(stoppingToken);
         await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
 
         using var timer = new PeriodicTimer(Interval, clock);

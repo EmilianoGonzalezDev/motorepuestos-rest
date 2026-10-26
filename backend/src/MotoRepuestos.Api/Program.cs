@@ -132,6 +132,7 @@ builder.Services.Configure<BrotliCompressionProviderOptions>(o => o.Level = Comp
 builder.Services.Configure<GzipCompressionProviderOptions>(o => o.Level = CompressionLevel.Fastest);
 
 builder.Services.AddHealthChecks()
+    .AddCheck<AppReadinessHealthCheck>("initialization", tags: ["ready"])
     .AddDbContextCheck<AppDbContext>("database", tags: ["ready"]);
 
 builder.Services.AddOpenApi(options =>
@@ -172,6 +173,7 @@ app.UseStaticFiles(new StaticFileOptions
 var hasSpa = app.HasSpa();
 if (hasSpa) app.UseSpaStaticFiles();
 
+app.UseMiddleware<WarmupGateMiddleware>();
 app.UseCors();
 app.UseRateLimiter();
 app.UseAuthentication();
@@ -191,7 +193,9 @@ app.MapApiNotFound();
 if (hasSpa) app.MapSpaFallback();
 else app.MapGet("/", () => Results.Redirect("/scalar")).ExcludeFromDescription();
 
-await app.Services.InitializeDatabaseAsync();
+// In background mode DatabaseInitializationService does it after the app starts listening.
+if (!app.Services.GetRequiredService<IOptions<DatabaseOptions>>().Value.InitializeInBackground)
+    await app.Services.InitializeDatabaseAsync();
 await app.RunAsync();
 return 0;
 

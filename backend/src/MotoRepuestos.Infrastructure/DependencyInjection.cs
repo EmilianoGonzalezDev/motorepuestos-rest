@@ -59,6 +59,8 @@ public static class DependencyInjection
         services.AddSingleton<DemoResetState>();
         services.AddSingleton<DemoResetService>();
 
+        services.AddSingleton<AppReadiness>();
+        services.AddHostedService<DatabaseInitializationService>();
         services.AddHostedService<GuestCartCleanupService>();
         services.AddHostedService<DemoResetScheduler>();
         return services;

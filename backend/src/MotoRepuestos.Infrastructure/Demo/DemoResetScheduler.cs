@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MotoRepuestos.Infrastructure.Persistence;
 
 namespace MotoRepuestos.Infrastructure.Demo;
 
@@ -11,6 +12,7 @@ namespace MotoRepuestos.Infrastructure.Demo;
 /// </summary>
 internal sealed class DemoResetScheduler(
     DemoResetService resetService,
+    AppReadiness readiness,
     IOptions<DemoOptions> options,
     TimeProvider clock,
     ILogger<DemoResetScheduler> logger) : BackgroundService
@@ -22,6 +24,7 @@ internal sealed class DemoResetScheduler(
         using var timer = new PeriodicTimer(TimeSpan.FromMinutes(options.Value.CheckIntervalMinutes), clock);
         try
         {
+            await readiness.WaitUntilReadyAsync(stoppingToken);
             while (await timer.WaitForNextTickAsync(stoppingToken))
             {
                 if (!resetService.IsDue()) continue;
