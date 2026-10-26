@@ -43,12 +43,3 @@ public interface IRichTextSanitizer
 {
     string Sanitize(string html);
 }
-
-public sealed record BackupInfo(string FileName, DateTime CreatedAt, long SizeBytes);
-
-public interface IDatabaseBackupService
-{
-    Task<IReadOnlyList<BackupInfo>> ListAsync(CancellationToken cancellationToken = default);
-    Task<BackupInfo> CreateAsync(CancellationToken cancellationToken = default);
-    Task RestoreAsync(string fileName, CancellationToken cancellationToken = default);
-}

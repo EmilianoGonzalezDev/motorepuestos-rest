@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MotoRepuestos.Application.Abstractions;
 using MotoRepuestos.Infrastructure.Auth;
-using MotoRepuestos.Infrastructure.Backups;
 using MotoRepuestos.Infrastructure.BackgroundJobs;
 using MotoRepuestos.Infrastructure.Persistence;
 using MotoRepuestos.Infrastructure.Persistence.Seed;
@@ -42,14 +41,12 @@ public static class DependencyInjection
         services.AddOptions<ImageStorageOptions>().Bind(configuration.GetSection(ImageStorageOptions.SectionName));
         services.AddOptions<SeedOptions>().Bind(configuration.GetSection(SeedOptions.SectionName));
         services.AddOptions<DatabaseOptions>().Bind(configuration.GetSection(DatabaseOptions.SectionName));
-        services.AddOptions<BackupOptions>().Bind(configuration.GetSection(BackupOptions.SectionName));
 
         services.AddSingleton<ITokenService, JwtTokenService>();
         services.AddSingleton<IPasswordHasher, PasswordHasherAdapter>();
         services.AddSingleton<IRichTextSanitizer, RichTextSanitizer>();
         services.AddSingleton<LocalImageStorage>();
         services.AddSingleton<IImageStorage>(sp => sp.GetRequiredService<LocalImageStorage>());
-        services.AddScoped<IDatabaseBackupService, SqlServerBackupService>();
         services.AddScoped<DataSeeder>();
 
         services.AddHostedService<GuestCartCleanupService>();

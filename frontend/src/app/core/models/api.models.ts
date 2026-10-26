@@ -241,9 +241,3 @@ export interface Dashboard {
 export interface Settings {
   lowStockThreshold: number;
 }
-
-export interface BackupInfo {
-  fileName: string;
-  createdAt: string;
-  sizeBytes: number;
-}

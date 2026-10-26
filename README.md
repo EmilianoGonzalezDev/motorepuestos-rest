@@ -46,7 +46,7 @@ timeline, favoritos, perfil y cambio de contraseña, modo oscuro, responsive.
 bajo; ABM de productos con editor de texto enriquecido (sanitizado en el servidor) y subida de imágenes
 (valida firma del archivo); categorías con validación asíncrona de nombre; pedidos con filtros, máquina de
 estados con historial y **exportación CSV**; usuarios (alta de admins y deshabilitación, solo SuperAdmin);
-configuración del umbral de stock bajo; **backups/restore nativos de SQL Server**.
+configuración del umbral de stock bajo.
 
 ### Features nuevas respecto al MVC
 Dashboard · favoritos · cancelación de pedidos por el cliente (con reposición de stock) · historial de
@@ -72,7 +72,7 @@ usuarios · ordenar/filtrar catálogo por precio · "volver a comprar" · rate l
   directamente sobre `IAppDbContext` (sin repositorios genéricos: EF Core ya es unit of work + repository) y
   devuelve `Result<T>` en lugar de lanzar excepciones para errores esperables. Validación con FluentValidation.
 - **Infrastructure**: EF Core + configuraciones `IEntityTypeConfiguration`, interceptor de auditoría
-  (`CreatedAt/UpdatedAt`), JWT, `PasswordHasher`, sanitizador HTML, storage de imágenes, backups, seeder.
+  (`CreatedAt/UpdatedAt`), JWT, `PasswordHasher`, sanitizador HTML, storage de imágenes, seeder.
 - **Api**: controllers finos, `GlobalExceptionHandler`, CORS, rate limiting, health checks, OpenAPI.
 
 ### Decisiones que vale la pena mirar
@@ -147,7 +147,7 @@ backend/
   src/
     MotoRepuestos.Domain/          entidades y reglas de negocio
     MotoRepuestos.Application/     casos de uso, DTOs, validadores, Result<T>
-    MotoRepuestos.Infrastructure/  EF Core, migraciones, JWT, storage, backups, seed
+    MotoRepuestos.Infrastructure/  EF Core, migraciones, JWT, storage, seed
     MotoRepuestos.Api/             controllers, middleware, OpenAPI
   tests/                           unitarios + integración
 frontend/src/app/

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  BackupInfo,
   CategoryAdmin,
   CategoryOption,
   Dashboard,
@@ -147,18 +146,5 @@ export class AdminApi {
 
   setUserStatus(id: number, isActive: boolean): Observable<void> {
     return this.http.patch<void>(`/api/users/${id}/status`, { isActive });
-  }
-
-  // Backups
-  backups(): Observable<BackupInfo[]> {
-    return this.http.get<BackupInfo[]>('/api/backups');
-  }
-
-  createBackup(): Observable<BackupInfo> {
-    return this.http.post<BackupInfo>('/api/backups', null);
-  }
-
-  restoreBackup(fileName: string): Observable<void> {
-    return this.http.post<void>(`/api/backups/${encodeURIComponent(fileName)}/restore`, null);
   }
 }
