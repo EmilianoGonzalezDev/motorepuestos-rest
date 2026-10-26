@@ -1,0 +1,167 @@
+@import 'tailwindcss';
+
+/* Dark mode is driven by a `.dark` class on <html> (ThemeService), not only by the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand: racing orange */
+  --color-brand-50: oklch(0.98 0.016 73.684);
+  --color-brand-100: oklch(0.954 0.038 75.164);
+  --color-brand-200: oklch(0.901 0.076 70.697);
+  --color-brand-300: oklch(0.837 0.128 66.29);
+  --color-brand-400: oklch(0.75 0.183 55.934);
+  --color-brand-500: oklch(0.705 0.213 47.604);
+  --color-brand-600: oklch(0.646 0.222 41.116);
+  --color-brand-700: oklch(0.553 0.195 38.402);
+  --color-brand-800: oklch(0.47 0.157 37.304);
+  --color-brand-900: oklch(0.408 0.123 38.172);
+
+  /* Semantic surface tokens (overridden for dark mode below) */
+  --color-bg: oklch(0.985 0.002 247.839);
+  --color-surface: oklch(1 0 0);
+  --color-surface-2: oklch(0.967 0.003 264.542);
+  --color-fg: oklch(0.21 0.006 285.885);
+  --color-muted: oklch(0.552 0.016 285.938);
+  --color-line: oklch(0.92 0.004 286.32);
+
+  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.04), 0 4px 16px -4px rgb(0 0 0 / 0.08);
+  --shadow-pop: 0 12px 40px -8px rgb(0 0 0 / 0.25);
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-in-right: slide-in-right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-pop-in: pop-in 0.18s ease-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+}
+
+.dark {
+  --color-bg: oklch(0.16 0.005 285.823);
+  --color-surface: oklch(0.205 0.006 285.885);
+  --color-surface-2: oklch(0.245 0.006 285.885);
+  --color-fg: oklch(0.967 0.001 286.375);
+  --color-muted: oklch(0.705 0.015 286.067);
+  --color-line: oklch(0.3 0.006 286.033);
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    @apply bg-bg text-fg antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply min-h-dvh font-sans;
+  }
+  h1, h2, h3 {
+    @apply font-display tracking-wide;
+  }
+  ::selection {
+    @apply bg-brand-500/25;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-card;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition
+      disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98];
+  }
+  .btn-primary {
+    @apply bg-brand-600 text-white shadow-sm hover:bg-brand-700;
+  }
+  .btn-secondary {
+    @apply border border-line bg-surface text-fg hover:bg-surface-2;
+  }
+  .btn-ghost {
+    @apply text-fg hover:bg-surface-2;
+  }
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+  .btn-sm {
+    @apply rounded-lg px-3 py-1.5 text-xs;
+  }
+  .btn-icon {
+    @apply inline-flex size-10 items-center justify-center rounded-xl text-fg transition hover:bg-surface-2;
+  }
+
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-fg;
+  }
+  .input {
+    @apply block w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-fg shadow-xs transition
+      placeholder:text-muted focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15 focus:outline-none
+      disabled:opacity-60;
+  }
+  .input.ng-invalid.ng-touched {
+    @apply border-red-500 focus:ring-red-500/15;
+  }
+  .field-error {
+    @apply mt-1.5 text-xs font-medium text-red-600 dark:text-red-400;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  .table-base {
+    @apply w-full text-left text-sm;
+  }
+  .table-base th {
+    @apply px-4 py-3 text-xs font-semibold tracking-wide text-muted uppercase;
+  }
+  .table-base td {
+    @apply border-t border-line px-4 py-3 align-middle;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-lg bg-surface-2;
+  }
+
+  /* Rich text product descriptions (sanitized HTML from the API) */
+  .rich-text {
+    @apply space-y-3 text-[15px] leading-relaxed text-fg/90;
+  }
+  .rich-text h3 {
+    @apply font-display text-xl font-bold;
+  }
+  .rich-text h4 {
+    @apply font-semibold;
+  }
+  .rich-text ul {
+    @apply list-disc space-y-1 pl-5;
+  }
+  .rich-text ol {
+    @apply list-decimal space-y-1 pl-5;
+  }
+  .rich-text a {
+    @apply text-brand-600 underline underline-offset-2;
+  }
+  .rich-text strong {
+    @apply font-semibold text-fg;
+  }
+}

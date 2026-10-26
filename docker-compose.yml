@@ -1,0 +1,48 @@
+# MotoRepuestos (REST + Angular) — full stack:   docker compose up --build
+#   Tienda:    http://localhost:8080
+#   API docs:  http://localhost:8080/scalar     (Scalar UI)
+#   API:       http://localhost:8081            (direct access, optional)
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD:-Your_strong_Passw0rd!}
+      MSSQL_PID: Developer
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  api:
+    build:
+      context: ./backend
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Default: "Server=db;Database=MotoRepuestosRest;User Id=sa;Password=${SA_PASSWORD:-Your_strong_Passw0rd!};TrustServerCertificate=True;MultipleActiveResultSets=true"
+      Jwt__SigningKey: ${JWT_SIGNING_KEY:-change-me-please-use-at-least-32-random-characters}
+      Cors__AllowedOrigins__0: http://localhost:8080
+      Seed__DemoOrders: "true"
+    volumes:
+      - product-images:/data/images
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+
+  web:
+    build:
+      context: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  mssql-data:
+  product-images:

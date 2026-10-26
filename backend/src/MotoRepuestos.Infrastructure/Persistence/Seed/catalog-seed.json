@@ -1,0 +1,581 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Motor",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "Transmisión",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "Frenos",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "Suspensión",
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "name": "Dirección",
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "name": "Sistema Eléctrico",
+      "isActive": true
+    },
+    {
+      "id": 7,
+      "name": "Baterías",
+      "isActive": true
+    },
+    {
+      "id": 8,
+      "name": "Iluminación",
+      "isActive": true
+    },
+    {
+      "id": 9,
+      "name": "Escapes",
+      "isActive": true
+    },
+    {
+      "id": 10,
+      "name": "Filtros",
+      "isActive": true
+    },
+    {
+      "id": 11,
+      "name": "Aceites",
+      "isActive": true
+    },
+    {
+      "id": 12,
+      "name": "Neumáticos",
+      "isActive": true
+    },
+    {
+      "id": 13,
+      "name": "Llantas",
+      "isActive": true
+    },
+    {
+      "id": 14,
+      "name": "Carenado",
+      "isActive": true
+    },
+    {
+      "id": 15,
+      "name": "Espejos",
+      "isActive": true
+    },
+    {
+      "id": 16,
+      "name": "Cascos",
+      "isActive": true
+    },
+    {
+      "id": 17,
+      "name": "Indumentaria",
+      "isActive": true
+    },
+    {
+      "id": 18,
+      "name": "Baúles",
+      "isActive": true
+    },
+    {
+      "id": 19,
+      "name": "Seguridad",
+      "isActive": true
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "categoryId": 11,
+      "name": "Aceite Motul 5100 20w50 1L",
+      "description": "<p>El <strong>Aceite Motul 5100 20w50</strong> es la opción ideal para motos de calle y carretera, así como para modelos trail, off road, enduro y trial. Su formulación de 4 tiempos garantiza un rendimiento óptimo, cumpliendo con las normativas de emisiones Euro 2, 3, 4 y 5.</p><p><strong>Características Principales:</strong> - <strong>Grado:</strong> 50 a alta temperatura, ideal para motores de gran cilindrada. - <strong>Compatibilidad:</strong> Perfecto para thumpers, Twins, bicicletas de calle sin catalizador, ATV's y UTV's.</p><p><strong>Asegura el mejor cuidado para tu moto con Motul 5100</strong></p>",
+      "price": 24000,
+      "stock": 20,
+      "isActive": true,
+      "image": "8b05d529-21dd-4d8e-92ed-3350e07772d1.jpg"
+    },
+    {
+      "id": 2,
+      "categoryId": 2,
+      "name": "Cadena Transmisión 420HX112",
+      "description": "<h3>Cadena Para Transmisión 420HX112 Hitak</h3><p><strong>Características:</strong></p><ul><li><strong>Código OEM:</strong> 420HX112</li><li><strong>Marca:</strong> Hitak</li><li><strong>Material:</strong> Acero de alta resistencia, ideal para soportar condiciones exigentes.</li></ul><p>La <strong>Cadena Para Transmisión 420HX112 Hitak</strong> es el componente perfecto para quienes buscan durabilidad y rendimiento en su motocicleta. Gracias a su <strong>diseño reforzado</strong>, esta cadena garantiza un funcionamiento óptimo en diversas condiciones de manejo.</p><p><strong>Beneficios Clave:</strong></p><ul><li><strong>Durabilidad Superior:</strong> Fabricada con materiales de alta calidad, esta cadena está diseñada para resistir el desgaste diario y prolongar la vida útil de tu moto.</li><li><strong>Instalación Sencilla:</strong> Su diseño permite una fácil instalación, lo que significa que podrás disfrutar de su rendimiento sin complicaciones.</li><li><strong>Rendimiento Mejorado:</strong> Asegura un desplazamiento suave y eficiente, mejorando la experiencia de conducción.</li></ul>",
+      "price": 9700,
+      "stock": 13,
+      "isActive": true,
+      "image": "883567ff-23c4-49ec-a681-5fd836957750.jpg"
+    },
+    {
+      "id": 3,
+      "categoryId": 4,
+      "name": "Amortiguadores Traseros Gilera",
+      "description": "<p>Amortiguadores traseros de alta calidad para motos Gilera Smash Tunning y similares de 110cc.</p><p>Características principales:</p><p>• Marca: NSU</p><p>• Compatibilidad: Moto Gilera Smash Tunning y similares 110cc</p><p>• Material: Acero cromado</p><p>• Color: Cromado</p><p>• Acabado de alta calidad y durabilidad</p><p>Producto ideal para reemplazo o mejora de la suspensión trasera de tu moto. Fabricado con materiales resistentes que garantizan un excelente rendimiento y larga vida útil.</p>",
+      "price": 50000,
+      "stock": 1,
+      "isActive": true,
+      "image": "5e33f0a7-416f-45f5-b956-38281b4afb82.webp"
+    },
+    {
+      "id": 4,
+      "categoryId": 7,
+      "name": "Batería Gel 12N7-3B",
+      "description": "<p>Esta batería de 12V es ideal para motos como <em>Honda Storm, Motomel S2, Motomel Skua y Zanella ZR 200</em>. Gracias a su tecnología con gel, ofrece una vida útil prolongada y no requiere mantenimiento ni recargas.</p><p><em>Fácil de instalar</em>, permite un arranque confiable y constante en cualquier condición. Perfecta para quienes buscan rendimiento y durabilidad en su vehículo.</p><p><strong>SKU:</strong> 010080000601002</p><p>Mantén tu moto siempre lista para rodar con esta batería confiable y libre de preocupaciones.</p>",
+      "price": 36170,
+      "stock": 9,
+      "isActive": true,
+      "image": "6ad2ab6c-557e-4eb3-a96d-da6aa045d026.webp"
+    },
+    {
+      "id": 5,
+      "categoryId": 9,
+      "name": "Escape Turbo Yamaha Crypton 105",
+      "description": "<h3>Escape Turbo Yamaha Crypton 105 Ira Original<br><br><strong>Características</strong>:<br>Código OEM: CATURIRALINCRY1<br>Código universal de producto: Ira<br>Condición del ítem: Nuevo<br>Diámetro del caño de escape: 22 \"<br>Incluye catalizador: No<br>Incluye silenciador: Si<br>Largo del caño de escape: 96 \"<br>Marca: Ira<br>Material: Acero inoxidable<br>Origen: Argentina</h3>",
+      "price": 165000,
+      "stock": 12,
+      "isActive": true,
+      "image": "7f7d60c4-4cd6-4c8f-bd75-33208ff19472.webp"
+    },
+    {
+      "id": 6,
+      "categoryId": 3,
+      "name": "Pastilla Freno Honda Biz 125",
+      "description": "<p>Pastilla De Freno Delantera Honda Biz 125 </p><p>Marca ORA</p><p>Producto Nacional </p>",
+      "price": 7500,
+      "stock": 23,
+      "isActive": true,
+      "image": "82a908d2-d88e-4d88-a04d-1fd8d8440307.webp"
+    },
+    {
+      "id": 7,
+      "categoryId": 6,
+      "name": "Instalación Eléctrica Honda Wave Nf 100",
+      "description": "<p><strong>Características:</strong></p><ul><li><strong>Código:</strong> ELINEREMCOMWAV1</li><li><strong>Condición del ítem:</strong> Nuevo</li><li><strong>Formato de venta:</strong> Unidad</li><li><strong>Origen:</strong> China</li><li><strong>Marca:</strong> Cati Moto</li><li><strong>Compatibilidad:</strong> Honda Wave NF 100</li></ul><p>Esta <strong>instalación eléctrica</strong> es perfecta para mantener tu motocicleta en óptimas condiciones. Diseñada específicamente para la <strong>Honda Wave NF 100</strong>, garantiza un rendimiento fiable y duradero. Asegúrate de que tu moto funcione adecuadamente con esta pieza de alta calidad.</p>",
+      "price": 71000,
+      "stock": 7,
+      "isActive": true,
+      "image": "4e085829-5937-4cd5-ab38-a7cd2e60c791.webp"
+    },
+    {
+      "id": 8,
+      "categoryId": 12,
+      "name": "Cubierta 275-18 Pirelli Super City",
+      "description": "<p>- Código SKU: RUCUBPIR278SUP1</p><p>- Tamaño: 90/90-18</p><p>- Uso: Urbano y en ruta</p><p>Los neumáticos Pirelli son reconocidos por su sobresaliente rendimiento tanto en carreras como en el uso diario. La Cubierta 275-18 Pirelli Super City combina tecnología avanzada y un diseño innovador, garantizando un viaje seguro y cómodo en cualquier tipo de terreno.</p><p>Con una construcción más rígida, este neumático con cámara ofrece una mejor estanqueidad del aire, siendo una opción económica y eficiente. Su gran dureza y mayor durabilidad lo convierten en el compañero ideal para la conducción en la ciudad.</p><p>Además, su diseño especial proporciona mayor tracción y estabilidad, permitiendo viajar con confianza incluso en condiciones climáticas adversas. ¡Descubre la calidad Pirelli y mejora tu experiencia de conducción hoy mismo!</p>",
+      "price": 130000,
+      "stock": 10,
+      "isActive": true,
+      "image": "c323b921-7c4a-4472-ba53-e689cd455fc8.webp"
+    },
+    {
+      "id": 9,
+      "categoryId": 13,
+      "name": "Llanta De Aleación Delantera Wave",
+      "description": "<h3>Llanta De Aleación Delantera Honda Wave Nf 100</h3><p>La <strong>llanta delantera de aleación</strong> para <strong>moto Honda Wave NF 100</strong> es el complemento perfecto para quienes buscan mejorar la estética y el rendimiento de su motocicleta. Diseñada específicamente para modelos con <strong>freno a disco</strong> y con un elegante diseño de <strong>5 rayos</strong>, esta llanta no solo resalta la apariencia de tu moto, sino que también garantiza una conducción segura y estable.</p><h4>Características Principales:</h4><ul><li><strong>Material</strong>: Aleación de alta calidad</li><li><strong>Diseño</strong>: 5 rayos, ideal para un look moderno</li><li><strong>Compatibilidad</strong>: Perfecta para Honda Wave NF 100</li><li><strong>Condición</strong>: Nuevo</li></ul><p>Esta llanta es <strong>duradera</strong> y resistente, diseñada para soportar las exigencias del día a día, asegurando que tu moto mantenga un rendimiento óptimo. Además, su instalación es sencilla, permitiéndote disfrutar de tu moto al instante.</p><p>No esperes más para darle a tu Honda Wave NF 100 la mejora que se merece. <strong>¡Adquiere tu llanta delantera de aleación hoy mismo y siente la diferencia en cada viaje!</strong></p>",
+      "price": 178400,
+      "stock": 5,
+      "isActive": true,
+      "image": "3bcd5e7d-ea59-4e6e-ba97-c307f9283886.webp"
+    },
+    {
+      "id": 10,
+      "categoryId": 14,
+      "name": "Kit de Plasticos de Gilera Smash 110/10 Piezas",
+      "description": "<p><strong>Kit de Plásticos Gilera Smash 110 - 10 Piezas </strong></p><ul><li><strong>Cantidad:</strong> 10 piezas</li><li><strong>Color:</strong> Negro brillante.</li><li><strong>Compatibilidad:</strong> Gilera Smash 110</li><li><strong>Condición:</strong> Nuevo, listo para instalar</li><li><strong>Material:</strong> Plástico resistente de alta calidad</li><li><strong>SKU:</strong> ACCACIKOJGOSMA3 (negro) ACCACBHIJGOSMA1 (azul marino)</li></ul><p>Ideal para renovar y proteger tu Gilera Smash 110 con estilo y durabilidad.</p>",
+      "price": 145000,
+      "stock": 10,
+      "isActive": true,
+      "image": "96d965d2-2b31-4d89-8382-7bcdf267778a.webp"
+    },
+    {
+      "id": 11,
+      "categoryId": 16,
+      "name": "Casco Stmotors Twister Doble Visor Integral",
+      "description": "<h3><strong>Casco Stmotors twister doble visor Integral</strong></h3><p><br><strong>Características</strong>:<br><br>Acabado: Brillante<br>Color principal: Rojo<br>Diseño: Solid<br>Estilo de conducción en moto: Urbano<br>Marca: Stmotors<br>Materiales del exterior: Policarbonato<br>Materiales del interior: Poliestireno<br>Modelo: TWISTER<br>MPN: 0200038 013XL<br>Normas de seguridad: ECE 22 05<br>Tamaño del casco: XL 60<br>Tipo de casco: Integral</p>",
+      "price": 291000,
+      "stock": 7,
+      "isActive": true,
+      "image": "83486d90-a2a1-478f-9990-40bec401a517.webp"
+    },
+    {
+      "id": 12,
+      "categoryId": 18,
+      "name": "Baul Portaequipaje Givi 45L",
+      "description": "<p>Baul Portaequipaje Givi 45L</p><p><br>Características:<br>Código OEM: ACFJABYCBAUL45L<br>Condición del ítem: Nuevo<br>Marca: Givi<br>Material: Plástico<br>MPN: ACFJABYCBAUL45L<br>Número de pieza: ACFJABYCBAUL45L</p>",
+      "price": 405000,
+      "stock": 5,
+      "isActive": true,
+      "image": "0e21fff0-70d0-4480-930c-09064cc355f4.webp"
+    },
+    {
+      "id": 13,
+      "categoryId": 2,
+      "name": "Kit Transmisión Honda Wave 110 Reforzado",
+      "description": "<p>Kit de transmisión reforzado para Honda Wave 110. Incluye componentes de alta resistencia para uso urbano diario y excelente durabilidad.</p>",
+      "price": 68500,
+      "stock": 12,
+      "isActive": true,
+      "image": "baa0a65c-0a0e-4938-8428-ed6b42c52bf6.jpg"
+    },
+    {
+      "id": 14,
+      "categoryId": 2,
+      "name": "Piñón 14 Dientes Motomel S2 150",
+      "description": "<p>Piñón de 14 dientes para Motomel S2 150, fabricado en acero templado. Ideal para reposición y mantenimiento preventivo.</p>",
+      "price": 12900,
+      "stock": 18,
+      "isActive": true,
+      "image": "f7bbff3e-2648-45b5-b2e9-df47aed87aa3.jpg"
+    },
+    {
+      "id": 15,
+      "categoryId": 2,
+      "name": "Corona 36 Dientes Gilera Smash",
+      "description": "<p>Corona de transmisión de 36 dientes compatible con Gilera Smash 110. Buena terminación y ajuste preciso.</p>",
+      "price": 21400,
+      "stock": 8,
+      "isActive": true,
+      "image": "b2367bb9-82f0-47eb-beb5-99c0e18e983e.jpg"
+    },
+    {
+      "id": 16,
+      "categoryId": 3,
+      "name": "Pastillas Freno Delantero XR 150",
+      "description": "<p>Juego de pastillas de freno delantero para Honda XR 150. Brindan frenado parejo y buen rendimiento en uso urbano.</p>",
+      "price": 11800,
+      "stock": 18,
+      "isActive": true,
+      "image": "79036fa2-cbc0-4141-bf03-5db249600d28.webp"
+    },
+    {
+      "id": 17,
+      "categoryId": 3,
+      "name": "Cintas De Freno Trasero Honda Wave",
+      "description": "<p>Cintas de freno trasero para Honda Wave, con compuesto de fricción confiable y larga vida útil.</p>",
+      "price": 9600,
+      "stock": 24,
+      "isActive": true,
+      "image": "1d157154-7c55-4ddb-a73d-10deef15e1e4.webp"
+    },
+    {
+      "id": 18,
+      "categoryId": 3,
+      "name": "Disco De Freno Delantero Gilera VC 150",
+      "description": "<p>Disco de freno delantero para Gilera VC 150, diseñado para una frenada estable y segura.</p>",
+      "price": 38700,
+      "stock": 7,
+      "isActive": true,
+      "image": "ee07d46c-c49b-408f-9511-a530b1711baf.jpg"
+    },
+    {
+      "id": 19,
+      "categoryId": 4,
+      "name": "Amortiguadores Traseros Honda Wave Cromados",
+      "description": "<p>Par de amortiguadores traseros cromados para Honda Wave. Mejora el confort de marcha y la estabilidad.</p>",
+      "price": 74200,
+      "stock": 8,
+      "isActive": true,
+      "image": "2af88095-bac8-4d2d-bb87-76d9176212d3.webp"
+    },
+    {
+      "id": 20,
+      "categoryId": 4,
+      "name": "Horquilla Delantera Completa Motomel B110",
+      "description": "<p>Horquilla delantera completa para Motomel B110. Repuesto ideal para restauración o reemplazo por desgaste.</p>",
+      "price": 128500,
+      "stock": 4,
+      "isActive": true,
+      "image": "4faae922-1bc7-4af3-b0e3-ea4b9480cb2d.webp"
+    },
+    {
+      "id": 21,
+      "categoryId": 4,
+      "name": "Barrales Delanteros Gilera Smash 110",
+      "description": "<p>Juego de barrales delanteros para Gilera Smash 110. Construcción robusta y buena terminación.</p>",
+      "price": 95600,
+      "stock": 6,
+      "isActive": true,
+      "image": "8eafef0f-4454-45ce-8d2f-9463ccb17e48.webp"
+    },
+    {
+      "id": 22,
+      "categoryId": 6,
+      "name": "CDI Honda Wave 110",
+      "description": "<p>Módulo CDI compatible con Honda Wave 110. Asegura encendido confiable y funcionamiento estable del motor.</p>",
+      "price": 18900,
+      "stock": 13,
+      "isActive": true,
+      "image": "ba8649a4-21fb-4281-910d-199992e635af.jpg"
+    },
+    {
+      "id": 23,
+      "categoryId": 6,
+      "name": "Bobina De Encendido CG 150",
+      "description": "<p>Bobina de encendido para CG 150. Repuesto de calidad para recuperar chispa y mejorar el arranque.</p>",
+      "price": 22400,
+      "stock": 11,
+      "isActive": true,
+      "image": "7186f97a-0829-417a-903b-1f1916c51046.webp"
+    },
+    {
+      "id": 24,
+      "categoryId": 6,
+      "name": "Regulador De Voltaje Biz 125",
+      "description": "<p>Regulador de voltaje para Honda Biz 125. Protege el sistema eléctrico y mantiene una carga adecuada.</p>",
+      "price": 27300,
+      "stock": 6,
+      "isActive": true,
+      "image": "59571b5d-2d5b-4a61-b9b5-98ec9e3e4fff.webp"
+    },
+    {
+      "id": 25,
+      "categoryId": 7,
+      "name": "Batería Gel YTX7A-BS 12V",
+      "description": "<p>Batería de gel 12V modelo YTX7A-BS. Libre de mantenimiento, ideal para motos urbanas y utilitarias.</p>",
+      "price": 48900,
+      "stock": 10,
+      "isActive": true,
+      "image": null
+    },
+    {
+      "id": 26,
+      "categoryId": 16,
+      "name": "Casco Abierto 721 Challenger Hawk",
+      "description": "<p><strong>Casco Abierto 721 Challenger Hawk - Negro con Blanco</strong></p><p><strong>Características:</strong> - <strong>Código OEM:</strong> CH721-HWK - <strong>Condición del ítem:</strong> Nuevo - <strong>Marca:</strong> Hawk - <strong>MPN:</strong> CH721-HWK - <strong>Origen:</strong> Argentina - <strong>Tamaño:</strong> Disponible en varias tallas - <strong>Tipo de casco:</strong> Abierto</p><p>Este <strong>casco abierto 721 Challenger de Hawk</strong> es la opción ideal para aquellos que buscan comodidad y estilo en sus viajes en moto. Su diseño en <strong>negro con blanco</strong> no solo ofrece un aspecto moderno, sino que también asegura una excelente visibilidad.</p><p><strong>Ventajas:</strong> - <strong>Ligero y cómodo:</strong> Ideal para recorridos largos. - <strong>Ventilación óptima:</strong> Mantiene la frescura en días calurosos. - <strong>Certificación de seguridad:</strong> Cumple con los estándares requeridos para la protección en moto.</p><p><strong>Recomendación:</strong> Perfecto para motociclistas urbanos que valoran la seguridad sin sacrificar el estilo.</p><p>No esperes más y equipate con el <strong>casco 721 Challenger de Hawk</strong> para disfrutar de cada viaje con confianza y elegancia.</p>",
+      "price": 122000,
+      "stock": 11,
+      "isActive": true,
+      "image": "520fc635-b8f5-47aa-9c0b-ebbcb5416d24.webp"
+    },
+    {
+      "id": 27,
+      "categoryId": 7,
+      "name": "Bateria Bosch Btx5l Honda Biz Elite Nxr Xr Cg Fan 125",
+      "description": "<p>Batería Bosch Para Motos<br>Polaridad: Derecha<br><br>Aplicaciones:<br>- Honda Biz 125<br>- Honda CG 125 Fan<br>- Honda CG 150<br>- Honda Elite 125<br>- Honda NXR 125<br>- Honda Titan<br>- Honda Top Boy 100<br>- Honda XR 125<br>- KTM 450<br>- KTM 525<br>- Kymco Top Boy 100<br>- Mondial MS 100<br><br>Numero de pieza: BTX5L<br>Numero Original: YTX5L-BS / 0092M67042</p>",
+      "price": 62100,
+      "stock": 12,
+      "isActive": true,
+      "image": "7ba7476f-57b5-4310-a1ec-0ec27bdf15db.webp"
+    },
+    {
+      "id": 28,
+      "categoryId": 9,
+      "name": "Escape Deportivo Honda Wave 110 Negro",
+      "description": "<p>Escape deportivo para Honda Wave 110 con terminación negra. Aporta estética renovada y excelente calce.</p>",
+      "price": 116800,
+      "stock": 5,
+      "isActive": true,
+      "image": "58e5453e-5cd9-479f-af2d-f2536bf6312f.jpg"
+    },
+    {
+      "id": 29,
+      "categoryId": 9,
+      "name": "Escape Completo Motomel S2 150 Cromado",
+      "description": "<p>Escape completo cromado para Motomel S2 150. Incluye silenciador y accesorios de montaje.</p>",
+      "price": 138200,
+      "stock": 6,
+      "isActive": true,
+      "image": "2e4518bf-c063-4500-9a2c-ab6e0f948abd.webp"
+    },
+    {
+      "id": 30,
+      "categoryId": 9,
+      "name": "Escape Silenciador Yamaha YBR 125",
+      "description": "<p>Escape Silenciador para Yamaha YBR 125, fabricado con materiales resistentes al uso diario y altas temperaturas.</p>",
+      "price": 87400,
+      "stock": 7,
+      "isActive": true,
+      "image": "d37fc089-a6c3-49e9-bc5c-12253a93f39c.jpg"
+    },
+    {
+      "id": 31,
+      "categoryId": 11,
+      "name": "Aceite Motul 7100 10W40 1L",
+      "description": "<p>Aceite sintético Motul 7100 10W40 para motos 4 tiempos. Excelente protección del motor y respuesta en altas temperaturas.</p>",
+      "price": 28900,
+      "stock": 17,
+      "isActive": true,
+      "image": "f4c14018-17ae-4c1b-8a14-c714217a796d.webp"
+    },
+    {
+      "id": 32,
+      "categoryId": 11,
+      "name": "Aceite Castrol Actevo 20W50 1L",
+      "description": "<p>Aceite Castrol Actevo 20W50 para motos de uso diario. Buena lubricación y protección del embrague húmedo.</p>",
+      "price": 17200,
+      "stock": 28,
+      "isActive": true,
+      "image": "aea48995-f25c-4a94-bceb-13c8988ae4a5.webp"
+    },
+    {
+      "id": 33,
+      "categoryId": 8,
+      "name": "Led Cree Mini Y3 Moto H4/hs1 Alta/baja 22.000lm Ultra Slim",
+      "description": "<p>Nuevo Kit Cree LED de la marca Luxled que posee un nuevo LED tipo DOB, brindando un mejor patrón de luz y mejor diferencia entre alta y baja. Pero su principal ventaja es su tamaño ultra compacto y que no posee cooler (ventilador). Importante: EL PRECIO CORRESPONDE A 1 LAMPARA, la cual viene de fabrica de a 2 por caja y se separan para poder vender de a unidad para motos. COLOCAR SOLO EN MOTOS CON CORRIENTE CONTINUA Y NO ALTERNA.</p>",
+      "price": 7500,
+      "stock": 14,
+      "isActive": true,
+      "image": "136a3ee9-48f0-4f9b-a704-771a96ea445d.webp"
+    },
+    {
+      "id": 34,
+      "categoryId": 18,
+      "name": "Baúl Moto Para 1 Casco 30 Litros Desmontable Wagner",
+      "description": "<p><strong>Marca:</strong> VC<br><strong>Modelo:</strong> VAM<br><strong>Número de pieza:</strong> 819</p><p><strong>Tipo de producto:</strong> Baúl trasero para moto<br><strong>Ubicación:</strong> Trasero<br><strong>Estilo de uso:</strong> Urbano</p><p><strong>Capacidad:</strong> 30 litros<br><strong>Capacidad de cascos:</strong> 1 casco</p><p><strong>Dimensiones:</strong></p><ul><li> Alto: 30 cm </li><li> Ancho: 40 cm </li><li> Profundidad: 42 cm </li></ul><p><strong>Color:</strong> Negro</p><p><strong>Características:</strong></p><ul><li> Incluye soporte de montaje </li><li> Sistema desmontable </li></ul>",
+      "price": 98000,
+      "stock": 8,
+      "isActive": true,
+      "image": "3563224a-2b30-4bff-9a00-6bfaf77222d9.webp"
+    },
+    {
+      "id": 35,
+      "categoryId": 5,
+      "name": "Manubrio Wirtz W3D 28,6MAM MX Diámetro 28,6MM",
+      "description": "<p>Diseñado para resistir lo que sea<p>Su construcción en aluminio templado y espesor variable le da rigidez en el centro y flexibilidad en los extremos.</p></p><p>Menos vibración, más control<p>Los extremos más delgados (22 mm) ayudan a reducir la fatiga y mejoran la sensibilidad del manejo.</p></p><p>Más protección, más confianza<p>Viene con pad central y travesaño de aluminio que aportan mayor rigidez y seguridad al manubrio.</p><p>Diámetro 28,6 mm en el centro y 22 mm en los extremos<p>Formato Fatbar profesional que combina rigidez y confort en una sola estructura.</p></p><p>Espesor variable de 6 mm a 4 mm<p>Rígido en el centro para mayor resistencia, flexible en los extremos para mejor sensación y absorción.</p></p><p>Pad con travesaño de aluminio incluido<p>Refuerza la estructura y protege al piloto ante impactos en maniobras técnicas o caídas.</p></p></p></p>",
+      "price": 170500,
+      "stock": 6,
+      "isActive": true,
+      "image": "f91697e9-9c8b-4513-b115-a630eff8e273.webp"
+    },
+    {
+      "id": 36,
+      "categoryId": 1,
+      "name": "Kit De Piston Para 110cc Varios Modelos 52.4mm",
+      "description": "<p>Te presentamos el Kit de Pistón completo marca KIGCOL para motocicletas de 110cc, la solución definitiva para la reconstrucción y el mantenimiento del corazón de tu moto. En Antares Motos entendemos la importancia de utilizar repuestos de alta calidad que garanticen un rendimiento óptimo y una larga vida útil, por eso te acercamos este producto de primera línea. Este kit incluye todo lo necesario para una instalación precisa y sin complicaciones: pistón de alta compresión, juego de aros completo, perno de pistón y seguros.</p>",
+      "price": 11500,
+      "stock": 15,
+      "isActive": true,
+      "image": "2196e0f4-4956-44b5-99bb-30e2dbb2489a.webp"
+    },
+    {
+      "id": 37,
+      "categoryId": 13,
+      "name": "Espejos Juego Motomel Skua 150 200",
+      "description": "<p>Características:<br>Acabado de la superficie: Mate<br>Código OEM: ACESJREMJGOMOT1<br>Código universal de producto: ACESJREMJGOMOT1<br>Condición del ítem: Nuevo<br>Es ajustable: Si<br>Estilo de conducción en moto: Urbano<br>Lado: Ambos lados<br>Largo: 15.5 Cm<br>Marca: Fiori<br>MPN: ACESJREMJGOMOT1<br>Número de pieza: ACESJREMJGOMOT1<br>Origen: China</p>",
+      "price": 16000,
+      "stock": 9,
+      "isActive": true,
+      "image": "7ef6fc72-4798-4a27-8d54-141a397ad6e5.webp"
+    },
+    {
+      "id": 38,
+      "categoryId": 13,
+      "name": "Llanta Aleación Delantera Corven Energy 110 Nitro",
+      "description": "<p>Llanta delantera de aleación para Corven Energy. Repuesto ideal para mejorar estética y durabilidad.</p>",
+      "price": 171900,
+      "stock": 9,
+      "isActive": true,
+      "image": "70586a83-6e28-417b-957a-ba41bd4f6f6c.jpg"
+    },
+    {
+      "id": 39,
+      "categoryId": 1,
+      "name": "Palanca de Cambio Estria Larga Gilera Smash",
+      "description": "<p><strong>Palanca de Cambio Estria Larga para Gilera Smash - Osaka</strong></p><ul><li><strong>Marca:</strong> Osaka</li><li><strong>Modelo:</strong> Palanca de Cambio Estria Larga</li><li><strong>Compatibilidad:</strong> Gilera Smash</li><li><strong>Medida:</strong> 40 mm</li><li><strong>SKU:</strong> REMOTBHIPALTRI1</li><li><strong>Condición:</strong> Nuevo</li></ul><p>Ideal para quienes buscan un reemplazo duradero y de calidad para su palanca de cambio. Fabricada con materiales resistentes para un óptimo rendimiento y durabilidad.</p>",
+      "price": 8500,
+      "stock": 10,
+      "isActive": true,
+      "image": "823d0675-60cf-4fce-93cd-a6c8165ab593.webp"
+    },
+    {
+      "id": 40,
+      "categoryId": 4,
+      "name": "Juego Amortiguadores Motos 110cc",
+      "description": "<ul><li><p>Compatibilidad: Este juego de amortiguadores no solo es compatible con la Gilera Smash 110cc, sino también con otras marcas como Keller, Motomel, Corven, Okinoi, y por supuesto, Gilera. Esto los convierte en una opción versátil para diferentes modelos de motocicletas.</p></li><li><p>Calidad de Fabricación: Los amortiguadores de Far son conocidos por su durabilidad y resistencia. Están diseñados para ofrecer un rendimiento óptimo incluso en condiciones de conducción exigentes.</p></li><li><p>Confort Mejorado: Con estos amortiguadores, experimentarás una conducción más suave y cómoda, ya que están diseñados para absorber eficazmente los impactos y vibraciones del camino.</p></li></ul>",
+      "price": 60500,
+      "stock": 12,
+      "isActive": true,
+      "image": "2e8a6a49-cb94-4259-aff0-667f03d01843.webp"
+    },
+    {
+      "id": 41,
+      "categoryId": 17,
+      "name": "Guantes Cuero Lady Style Prot Shock Control",
+      "description": "<p>- Guantes de mujer color rojo cuero Lady Style Prot shock control <br>- Marca STAV </p>",
+      "price": 77870,
+      "stock": 9,
+      "isActive": true,
+      "image": "927fd6b7-5eb7-4331-a504-c2eb0b5d39f5.webp"
+    },
+    {
+      "id": 42,
+      "categoryId": 6,
+      "name": "Bujía Para Moto 110 cc Gilera keller motomel Henko",
+      "description": "<p><strong>Bujía Para Moto 110 cc Gilera Keller Motomel Henko</strong></p><p><strong>Características:<br></strong> - <strong>Código OEM:</strong> BUJIA110CC-HENKO<br>- <strong>Marca:</strong> Henko <br>- <strong>MPN:</strong> BUJIA110CC-HENKO <br>- <strong>Número de pieza:</strong> BUJIA110CC-HENKO <br>- <strong>Compatibilidad:</strong> Ideal para motos de 110 cc con rosca de 10 mm, compatible con modelos como Yamaha YBR 125 cc y XTZ 125.</p><p><strong>Descripción:</strong> La <strong>Bujía para Moto 110 cc Gilera Keller Motomel Henko</strong> es el componente ideal para asegurar el correcto funcionamiento de tu motocicleta. Diseñada específicamente para motos de 110 cc, su rosca de 10 mm garantiza una instalación sencilla y perfecta.</p><p><strong>Beneficios:</strong> - Aumenta la eficiencia del motor. - Mejora el rendimiento y la potencia de tu moto. - Prolonga la vida útil del motor al asegurar una combustión óptima.</p><p>Con la <strong>bujía Henko</strong>, no solo optimizarás el funcionamiento de tu moto, sino que también disfrutarás de una experiencia de conducción más suave y eficiente. ¡No esperes más y mejora el rendimiento de tu moto con este excelente producto!</p>",
+      "price": 5500,
+      "stock": 16,
+      "isActive": true,
+      "image": "541ce3d9-09fe-49d5-9738-fbd1842be71a.webp"
+    },
+    {
+      "id": 43,
+      "categoryId": 2,
+      "name": "Transmisión Completa Honda CG 150",
+      "description": "<p><strong>Transmisión Completa Honda CG 150</strong><br>Mejore el rendimiento de su moto con esta transmisión completa, fabricada para la Honda CG 150 con materiales de alta calidad y máxima durabilidad.</p><p><strong>Componentes incluidos:</strong><br>- Corona y piñón de resistencia superior<br>- Cadena 428Hx118 reforzada para mayor duración</p><p>Este conjunto asegura una transmisión eficiente y prolonga la vida útil de su motocicleta. Ideal para quienes buscan calidad y confiabilidad en cada viaje.<br><strong>SKU</strong>: OFTRANS+LUBHCG2</p>",
+      "price": 35000,
+      "stock": 10,
+      "isActive": true,
+      "image": "1ca1cecf-211e-4aba-9b45-ed187f6a7c33.webp"
+    },
+    {
+      "id": 44,
+      "categoryId": 17,
+      "name": "Mono de Moto de Piel Perforado 2 Piezas Mugenrace Sidegun",
+      "description": "<p><strong>Marca:</strong> MUGENRACE<br><strong>Modelo:</strong> Sidegun 2PC<br><strong>Tipo de prenda:</strong> Traje de moto de 2 piezas<br><strong>Género:</strong> Hombre<br><strong>Estilo:</strong> Deportivo / Racing<br><strong>Temporada recomendada:</strong> Verano</p><p><strong>Material:</strong> Cuero vacuno de alta calidad</p><p><strong>Protecciones incluidas:</strong></p><ul><li> CE Nivel 2 en codos </li><li> CE Nivel 2 en hombros </li><li> CE Nivel 2 en rodillas </li></ul><p><strong>Ventilación:</strong> Paneles perforados para mayor flujo de aire</p><p><strong>Forro interior:</strong> Desmontable de malla transpirable</p><p><strong>Colores disponibles:</strong> Blanco, Negro, Rojo</p>",
+      "price": 475000,
+      "stock": 4,
+      "isActive": true,
+      "image": "5e5d4080-7925-4794-aaff-35d65b902b2a.jpg"
+    },
+    {
+      "id": 45,
+      "categoryId": 7,
+      "name": "Bateria Honda Twister 250cc Ytx7lbs Gel",
+      "description": "<p><strong>Batería de Moto Honda Twister 250cc Ytx7lbs Gel</strong></p><p><strong>Características:</strong> - <strong>Código OEM:</strong> YTX7LBS - <strong>Condición del ítem:</strong> Nuevo - <strong>Capacidad:</strong> 12V 7AH/10HR - <strong>Positivo:</strong> Hacia la derecha - <strong>Tipo:</strong> Gel - <strong>Modelo:</strong> Ytx7lbs - <strong>Formato de venta:</strong> Unidad - <strong>Tipo de vehículo:</strong> Motocicleta</p><p>Esta <strong>batería de moto</strong> es la opción ideal para tu <strong>Honda Twister 250cc</strong>. Con una <strong>capacidad de 12V 7AH</strong>, está diseñada para ofrecer un rendimiento óptimo y confiable. Su diseño con el <strong>positivo hacia la derecha</strong> facilita la instalación, haciendo que esté <strong>lista para su colocación</strong>.</p><p>Además, su tecnología de <strong>gel</strong> proporciona una mayor resistencia a vibraciones y temperaturas extremas, asegurando una larga vida útil. No importa si usas tu moto para el día a día o para escapadas de fin de semana, esta batería se adaptará perfectamente a tus necesidades.</p><p><strong>¡Potencia tu Honda Twister 250cc con la mejor batería en el mercado!</strong></p>",
+      "price": 36530,
+      "stock": 9,
+      "isActive": true,
+      "image": "5c17dad7-f8d0-47ad-a1a6-b099e23f45f2.webp"
+    },
+    {
+      "id": 46,
+      "categoryId": 17,
+      "name": "Guantes De Cuero Para Moto Táctil C/Protección Motowolf",
+      "description": "<h3>Guantes De Cuero Liso Táctil C/protección</h3><p>Los <strong>Guantes de Cuero Liso Táctil C/protección</strong> de la marca <strong>Motowolf</strong> son la elección perfecta para los motociclistas que buscan <strong>comodidad</strong>, <strong>protección</strong> y <strong>funcionalidad</strong>. Diseñados para ofrecer una experiencia de conducción óptima, estos guantes combinan un estilo moderno con características prácticas que los convierten en un accesorio indispensable.</p><h3>Características Principales:</h3><ul><li><strong>Material de Alta Calidad</strong>: Fabricados en cuero liso, garantizan durabilidad y resistencia al desgaste, ideales para el uso diario.</li><li><strong>Tecnología Táctil</strong>: Equipados con tecnología táctil en los dedos, permiten el uso de dispositivos móviles sin necesidad de quitarse los guantes, manteniendo la conectividad en todo momento.</li><li><strong>Protección Adicional</strong>: Incorporan refuerzos estratégicos que brindan mayor seguridad en caso de caídas, asegurando que tus manos estén protegidas.</li></ul>",
+      "price": 126000,
+      "stock": 9,
+      "isActive": true,
+      "image": "a3d203e4-de2e-40ea-988f-bdb478c0127f.webp"
+    },
+    {
+      "id": 47,
+      "categoryId": 12,
+      "name": "Cubierta 110/90-13 Journey",
+      "description": "<p>Cubierta 110/90-13 Marca Journey para Gilera Tunning</p><p>Optimice el rendimiento y la seguridad de su motocicleta Gilera Tunning con esta cubierta 110/90-13 de la reconocida marca Journey. Diseñada para ofrecer un excelente agarre y durabilidad, esta cubierta garantiza una conducción confiable en diferentes condiciones de la vía.</p><ul><li>Medida: 110/90-13</li><li>Marca: Journey</li><li>Compatibilidad: Especial para Gilera Tunning</li></ul><p>Ideal para quienes buscan calidad y rendimiento en cada kilómetro recorrido.</p>",
+      "price": 70125,
+      "stock": 7,
+      "isActive": true,
+      "image": "d6721e19-3e6d-4cc4-8b2a-d9ca3f784b10.webp"
+    },
+    {
+      "id": 48,
+      "categoryId": 16,
+      "name": "Casco Ls2 Rapid Gale Original Modelo FF353",
+      "description": "<p><strong>Casco LS2 Rapid Gale FF353</strong></p><p>Ideal para uso urbano, con diseño moderno en <strong>negro, azul y amarillo mate</strong>. Ofrece excelente combinación de seguridad, confort y estilo.</p><p><strong>Características principales:</strong></p><ul><li> Marca: LS2 </li><li> Modelo: FF353 </li><li> Talle: XL </li><li> Material exterior: Policarbonato (HPTT) </li><li> Interior: EPS multidensidad, desmontable y lavable </li><li> Forro hipoalergénico y transpirable </li><li> Peso: 1300 ± 50 g </li><li> Homologación: ECE 22.05 </li><li> Cierre micrométrico </li></ul><p><strong>Visor y seguridad:</strong></p><ul><li> Pantalla 3D con tratamiento anti-rayaduras y anti-UV </li><li> Compatible con Pinlock Max Vision (no incluido) </li><li> Incluye naricera y barbillera </li><li> Sistema de ventilación canalizado </li></ul><p><strong>Extras:</strong><br> Incluye kit de regalo con llavero, manuales y calco reflectivo.</p>",
+      "price": 280470,
+      "stock": 8,
+      "isActive": true,
+      "image": "f0c2629f-272c-4dca-937c-a437d939d916.webp"
+    }
+  ]
+}

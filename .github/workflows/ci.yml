@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: backend/global.json
+          dotnet-version: 10.0.x
+      - run: dotnet restore MotoRepuestos.slnx
+      - run: dotnet build MotoRepuestos.slnx --no-restore -c Release
+      - name: Unit tests
+        run: dotnet test --project tests/MotoRepuestos.UnitTests -c Release --no-build
+      - name: Integration tests (SQL Server via Testcontainers)
+        run: dotnet test --project tests/MotoRepuestos.IntegrationTests -c Release --no-build
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npx ng build --configuration production
+      - run: npx ng test --no-watch
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose build

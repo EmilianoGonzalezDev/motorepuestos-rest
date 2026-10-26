@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MotoRepuestos.Api/MotoRepuestos.Api.csproj" />
+    <Project Path="src/MotoRepuestos.Application/MotoRepuestos.Application.csproj" />
+    <Project Path="src/MotoRepuestos.Domain/MotoRepuestos.Domain.csproj" />
+    <Project Path="src/MotoRepuestos.Infrastructure/MotoRepuestos.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MotoRepuestos.IntegrationTests/MotoRepuestos.IntegrationTests.csproj" />
+    <Project Path="tests/MotoRepuestos.UnitTests/MotoRepuestos.UnitTests.csproj" />
+  </Folder>
+</Solution>
