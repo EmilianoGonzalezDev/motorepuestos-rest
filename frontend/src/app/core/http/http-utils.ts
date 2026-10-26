@@ -67,5 +67,8 @@ export function controlErrorMessage(control: AbstractControl | null): string | n
   if (e['passwordStrength']) return 'Usá al menos 8 caracteres, con letras y números.';
   if (e['mismatch']) return 'Las contraseñas no coinciden.';
   if (e['nameTaken']) return 'Ya existe una categoría con ese nombre.';
+  if (e['cardNumber']) return 'El número de tarjeta no es válido.';
+  if (e['cardExpiry']) return 'Ingresá el vencimiento como MM/AA.';
+  if (e['cardExpired']) return 'La tarjeta está vencida.';
   return 'Valor inválido.';
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { OrdersApi } from '../../core/api/store.api';
@@ -9,16 +9,19 @@ import { OrderDetail, PaymentType } from '../../core/models/api.models';
 import { Icon, IconName } from '../../shared/components/icon';
 import { EmptyState, ProductImage, Spinner } from '../../shared/components/ui';
 import { ArsPipe, PaymentPipe } from '../../shared/pipes';
+import { CardPaymentForm } from './card-payment-form';
 
 const PAYMENTS: { value: PaymentType; icon: IconName; title: string; text: string }[] = [
-  { value: 'Card', icon: 'credit-card', title: 'Tarjeta', text: 'Crédito o débito. Te enviamos el link de pago.' },
+  { value: 'Card', icon: 'credit-card', title: 'Tarjeta', text: 'Crédito o débito. Pago simulado, sin cobro real.' },
   { value: 'BankTransfer', icon: 'bank', title: 'Transferencia', text: 'CBU/alias al confirmar el pedido.' },
   { value: 'Store', icon: 'store', title: 'En el local', text: 'Pagás cuando retirás tu pedido.' },
 ];
 
+const SIMULATED_PAYMENT_MS = 2000;
+
 @Component({
   selector: 'app-checkout-page',
-  imports: [FormsModule, RouterLink, Icon, EmptyState, ProductImage, Spinner, ArsPipe, PaymentPipe],
+  imports: [FormsModule, RouterLink, Icon, EmptyState, ProductImage, Spinner, ArsPipe, PaymentPipe, CardPaymentForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="container-page py-10">
@@ -30,7 +33,7 @@ const PAYMENTS: { value: PaymentType; icon: IconName; title: string; text: strin
           </div>
           <h1 class="mt-5 text-4xl font-extrabold uppercase">¡Gracias por tu compra!</h1>
           <p class="mt-2 text-muted">Recibimos tu pedido <strong class="text-fg">#{{ order.id }}</strong> por <strong class="text-fg">{{ order.total | ars }}</strong>.</p>
-          <p class="mt-1 text-sm text-muted">Medio de pago: {{ order.paymentType | payment }}. Te avisaremos cuando esté listo para retirar.</p>
+          <p class="mt-1 text-sm text-muted">Medio de pago: {{ order.paymentType | payment }}@if (order.paymentType === 'Card') { (pago simulado)}. Te avisaremos cuando esté listo para retirar.</p>
           <div class="mt-8 flex flex-wrap justify-center gap-3">
             <a [routerLink]="['/cuenta/pedidos', order.id]" class="btn btn-primary"><app-icon name="package" /> Seguir mi pedido</a>
             <a routerLink="/productos" class="btn btn-secondary">Seguir comprando</a>
@@ -69,6 +72,9 @@ const PAYMENTS: { value: PaymentType; icon: IconName; title: string; text: strin
                   </label>
                 }
               </div>
+              @if (paymentType() === 'Card') {
+                <app-card-payment-form />
+              }
             </section>
 
             <section class="card p-6">
@@ -91,7 +97,8 @@ const PAYMENTS: { value: PaymentType; icon: IconName; title: string; text: strin
             }
 
             <button type="submit" class="btn btn-primary w-full py-3.5 text-base lg:hidden" [disabled]="placing()">
-              @if (placing()) { <app-spinner /> } Confirmar pedido · {{ cart.cart().total | ars }}
+              @if (processingPayment()) { <app-spinner /> Procesando pago… }
+              @else { @if (placing()) { <app-spinner /> } Confirmar pedido · {{ cart.cart().total | ars }} }
             </button>
           </form>
 
@@ -116,7 +123,8 @@ const PAYMENTS: { value: PaymentType; icon: IconName; title: string; text: strin
               <span class="font-display text-4xl font-bold">{{ cart.cart().total | ars }}</span>
             </div>
             <button class="btn btn-primary mt-5 hidden w-full py-3.5 text-base lg:flex" [disabled]="placing()" (click)="place()">
-              @if (placing()) { <app-spinner /> } Confirmar pedido
+              @if (processingPayment()) { <app-spinner /> Procesando pago… }
+              @else { @if (placing()) { <app-spinner /> } Confirmar pedido }
             </button>
           </aside>
         </div>
@@ -133,13 +141,25 @@ export class CheckoutPage {
   protected readonly paymentType = signal<PaymentType>('Card');
   protected readonly notes = signal('');
   protected readonly placing = signal(false);
+  protected readonly processingPayment = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly placed = signal<OrderDetail | null>(null);
+  private readonly cardForm = viewChild(CardPaymentForm);
 
-  protected place(): void {
+  protected async place(): Promise<void> {
     if (this.placing()) return;
+    const payingByCard = this.paymentType() === 'Card';
+    if (payingByCard && !this.cardForm()?.validate()) return;
+
     this.placing.set(true);
     this.error.set(null);
+
+    if (payingByCard) {
+      // Simulated gateway: a short pause so the flow feels like a real payment. No card data is sent.
+      this.processingPayment.set(true);
+      await new Promise((resolve) => setTimeout(resolve, SIMULATED_PAYMENT_MS));
+      this.processingPayment.set(false);
+    }
 
     this.ordersApi.place(this.paymentType(), this.notes().trim() || null).subscribe({
       next: (order) => {
