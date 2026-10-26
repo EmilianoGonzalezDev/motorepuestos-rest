@@ -48,7 +48,11 @@ public sealed class ApiFixture : IAsyncLifetime
             ["ConnectionStrings__Default"] = connectionString,
             ["Jwt__SigningKey"] = "integration-tests-signing-key-0123456789abcdef",
             ["Auth__SecureCookies"] = "false",
-            ["RateLimiting__AuthPermitPerMinute"] = "100000", // tests sign in constantly from one IP
+            // Every request comes from one IP and tests sign in constantly.
+            ["RateLimiting__GlobalPermitPerMinute"] = "100000",
+            ["RateLimiting__AuthPermitPerMinute"] = "100000",
+            ["RateLimiting__WritesPermitPerMinute"] = "100000",
+            ["RateLimiting__DemoResetPermitPerMinute"] = "100000",
             ["ImageStorage__RootPath"] = _storagePath,
             ["Seed__Enabled"] = "true",
             ["Seed__DemoOrders"] = "false",

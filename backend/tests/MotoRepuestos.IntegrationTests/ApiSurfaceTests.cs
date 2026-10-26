@@ -3,6 +3,10 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MotoRepuestos.IntegrationTests;
 
@@ -193,6 +197,18 @@ public class ApiSurfaceTests(ApiFixture api)
 
         dashboard.GetProperty("salesByDay").GetArrayLength().ShouldBe(14);
         dashboard.GetProperty("ordersByStatus").GetArrayLength().ShouldBe(4);
+    }
+
+    [Fact]
+    public void Every_write_endpoint_is_rate_limited()
+    {
+        var endpoints = api.Factory.Services.GetRequiredService<EndpointDataSource>().Endpoints.OfType<RouteEndpoint>()
+            .Where(e => e.RoutePattern.RawText?.StartsWith("api/", StringComparison.OrdinalIgnoreCase) == true)
+            .Where(e => e.Metadata.GetMetadata<IHttpMethodMetadata>()?.HttpMethods.Any(m => !HttpMethods.IsGet(m)) == true)
+            .ToList();
+
+        endpoints.ShouldNotBeEmpty();
+        endpoints.ShouldAllBe(e => e.Metadata.GetMetadata<EnableRateLimitingAttribute>() != null);
     }
 
     [Fact]

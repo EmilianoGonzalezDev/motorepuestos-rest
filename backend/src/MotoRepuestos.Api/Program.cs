@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -90,15 +89,7 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy(Policies.SuperAdmin, p => p.RequireRole(nameof(UserRole.SuperAdmin)));
 
 // ---- Cross-cutting -------------------------------------------------------------------
-var authPermitLimit = builder.Configuration.GetValue("RateLimiting:AuthPermitPerMinute", 10);
-builder.Services.AddRateLimiter(options =>
-{
-    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-    // Brute-force protection for login/register (default: 10 attempts per minute per client IP).
-    options.AddPolicy(RateLimitPolicies.Auth, http => RateLimitPartition.GetFixedWindowLimiter(
-        http.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-        _ => new FixedWindowRateLimiterOptions { PermitLimit = authPermitLimit, Window = TimeSpan.FromMinutes(1) }));
-});
+builder.Services.AddAppRateLimiting(builder.Configuration);
 
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy
@@ -149,9 +140,9 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseCors();
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRateLimiter();
 
 app.MapOpenApi();
 app.MapScalarApiReference(options => options
@@ -162,7 +153,7 @@ app.MapScalarApiReference(options => options
 app.MapHealthChecks("/health/live", new HealthCheckOptions { Predicate = _ => false });
 app.MapHealthChecks("/health/ready", new HealthCheckOptions { Predicate = c => c.Tags.Contains("ready") });
 
-app.MapControllers();
+app.MapControllers().WithWriteRateLimits();
 app.MapGet("/", () => Results.Redirect("/scalar")).ExcludeFromDescription();
 
 await app.Services.InitializeDatabaseAsync();

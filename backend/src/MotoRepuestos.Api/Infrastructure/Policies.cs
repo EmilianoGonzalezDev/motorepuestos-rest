@@ -11,4 +11,6 @@ internal static class Policies
 internal static class RateLimitPolicies
 {
     public const string Auth = "auth";
+    public const string Writes = "writes";
+    public const string DemoReset = "demo-reset";
 }
