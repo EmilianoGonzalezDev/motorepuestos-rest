@@ -17,6 +17,7 @@ dist/
 
 # Local config / secrets
 .env
+README_DEV.md
 appsettings.*.local.json
 *.bak
 

@@ -1,9 +1,31 @@
 # MotoRepuestos · REST API + Angular
 
 E-commerce de repuestos para motos. Es la **segunda implementación** del mismo negocio que la versión
-[ASP.NET Core MVC](../eCommerceMotoRepuestos) (Razor + SQLite): acá el backend es una **API REST** con
-**SQL Server**, y el frontend una **SPA Angular**. La idea es mostrar cómo cambia la arquitectura (y qué
-se gana y qué se paga) manteniendo el dominio.
+[ASP.NET Core MVC](https://github.com/EmilianoGonzalezDev/eCommerceMotoRepuestos) (Razor + SQLite): acá el
+backend es una **API REST** con **SQL Server**, y el frontend una **SPA Angular**. La idea es mostrar cómo
+cambia la arquitectura (y qué se gana y qué se paga) manteniendo el dominio.
+
+## Demo online
+
+**`https://<app>.azurewebsites.net`** _(link pendiente del primer deploy)_ · la documentación de la API está en `/scalar`
+
+En la pantalla *Ingresar* hay botones para entrar con un clic. Todas las cuentas usan la contraseña `Demo1234!`.
+
+| Rol | Email | Para probar |
+|---|---|---|
+| Cliente | `cliente@motorepuestos.com` | Comprar, seguir pedidos, cancelarlos, favoritos, "volver a comprar" |
+| Admin | `admin@motorepuestos.com` | Dashboard, ABM de productos y categorías, gestión de pedidos, exportación CSV |
+| Super admin | `superadmin@motorepuestos.com` | Lo mismo que Admin, más alta de administradores y deshabilitación de usuarios |
+
+- **Podés modificar todo.** Los datos vuelven a su estado inicial cada 24 h, y los admins también pueden
+  restablecerlos desde el aviso del panel.
+- **Las cuentas demo son de solo lectura** en nombre, email y contraseña, y no se pueden deshabilitar, para
+  que la demo funcione para todos. Para probar esas funciones registrá una cuenta propia (se borra en el
+  siguiente restablecimiento).
+- **El pago con tarjeta es simulado:** los datos no se envían al servidor. Hay un botón para completar una
+  tarjeta de prueba.
+- **La primera carga puede tardar hasta un minuto:** corre en planes gratuitos de Azure que se suspenden
+  sin visitas. Mientras tanto la app muestra un aviso y reintenta sola.
 
 | | MVC (versión 1) | **REST + Angular (esta)** |
 |---|---|---|
@@ -15,7 +37,8 @@ se gana y qué se paga) manteniendo el dominio.
 | Concurrencia de stock | Transacción | Concurrencia optimista (`rowversion`) + reintentos |
 | Errores | Páginas de error / TempData | RFC 9457 `ProblemDetails` con códigos de error |
 | Docs de API | — | OpenAPI + Scalar (`/scalar`) |
-| Tests | — | 56 unitarios + 22 de integración (SQL Server real en contenedor) + 29 specs de Angular |
+| Tests | — | 56 unitarios + 34 de integración (SQL Server real en contenedor) + 40 specs de Angular |
+| Hosting | App Service (código) + SQLite en `/home` | App Service F1 (API + SPA, mismo origen) + Azure SQL serverless (oferta gratuita) |
 
 ## Capturas
 
@@ -39,7 +62,7 @@ se gana y qué se paga) manteniendo el dominio.
 
 **Tienda (público)** — catálogo paginado con filtros por categoría/precio/orden (estado en la URL),
 búsqueda insensible a mayúsculas y acentos con autocompletado, detalle de producto con relacionados,
-carrito (drawer + página), checkout (tarjeta / transferencia / en el local), seguimiento de pedidos con
+carrito (drawer + página), checkout (tarjeta simulada / transferencia / en el local), seguimiento de pedidos con
 timeline, favoritos, perfil y cambio de contraseña, modo oscuro, responsive.
 
 **Backoffice (Admin / SuperAdmin)** — dashboard con KPIs, ventas por día, más vendidos y alertas de stock
@@ -51,14 +74,15 @@ configuración del umbral de stock bajo.
 ### Features nuevas respecto al MVC
 Dashboard · favoritos · cancelación de pedidos por el cliente (con reposición de stock) · historial de
 estados · edición rápida de stock · exportación CSV · modo oscuro · cambio de contraseña · deshabilitar
-usuarios · ordenar/filtrar catálogo por precio · "volver a comprar" · rate limiting en login/registro.
+usuarios · ordenar/filtrar catálogo por precio · "volver a comprar" · rate limiting por IP · modo demo con
+restablecimiento de datos.
 
 ## Arquitectura
 
 ```
 ┌────────────────────┐   HTTPS/JSON    ┌──────────────────────────────────────────────┐
 │  Angular SPA       │ ──────────────▶ │  MotoRepuestos.Api         (controllers, auth)│
-│  (nginx en Docker) │ ◀────────────── │  ├─ Application   (casos de uso, DTOs, FV)    │
+│  (nginx / wwwroot) │ ◀────────────── │  ├─ Application   (casos de uso, DTOs, FV)    │
 └────────────────────┘  ProblemDetails │  ├─ Domain        (entidades + reglas)        │
                                        │  └─ Infrastructure (EF Core, JWT, storage)    │
                                        └───────────────────────┬──────────────────────┘
@@ -73,7 +97,8 @@ usuarios · ordenar/filtrar catálogo por precio · "volver a comprar" · rate l
   devuelve `Result<T>` en lugar de lanzar excepciones para errores esperables. Validación con FluentValidation.
 - **Infrastructure**: EF Core + configuraciones `IEntityTypeConfiguration`, interceptor de auditoría
   (`CreatedAt/UpdatedAt`), JWT, `PasswordHasher`, sanitizador HTML, storage de imágenes, seeder.
-- **Api**: controllers finos, `GlobalExceptionHandler`, CORS, rate limiting, health checks, OpenAPI.
+- **Api**: controllers finos, `GlobalExceptionHandler`, CORS, rate limiting, health checks, OpenAPI. En Azure
+  además sirve la SPA desde `wwwroot` (en Docker la sirve nginx); en los dos casos SPA y API comparten origen.
 
 ### Decisiones que vale la pena mirar
 
@@ -94,6 +119,35 @@ usuarios · ordenar/filtrar catálogo por precio · "volver a comprar" · rate l
    la tienda (Argentina).
 7. **Búsqueda** — columna `SearchText` normalizada (sin acentos/HTML), igual que en el MVC pero calculada en
    el dominio; filtros y paginado se resuelven en SQL.
+8. **Demo pública con credenciales de admin compartidas** — ver [Seguridad de la demo](#seguridad-de-la-demo).
+
+## Seguridad de la demo
+
+Cualquiera puede entrar como administrador, así que la demo se diseñó asumiendo visitantes maliciosos:
+
+- **Rate limiting por IP**: límite general para la API, uno estricto para login/registro, uno para toda
+  escritura (aplicado por convención a cada endpoint que no sea GET) y uno para el reset. Responde 429 con
+  `Retry-After`.
+- **Cuentas demo protegidas**: no pueden cambiar nombre, email ni contraseña, y el SuperAdmin no puede
+  deshabilitarlas.
+- **Restablecimiento de datos** en una transacción (dentro de la estrategia de reintentos de EF): borra lo
+  creado por visitantes, vuelve a sembrar los datos y las imágenes, y reinicia los ids. Corre al iniciar si
+  pasaron 24 h, con un chequeo periódico en memoria, desde un botón del panel o desde un endpoint protegido
+  por token (comparado en tiempo constante).
+- **Sesiones invalidadas tras un reset**: se rechazan los access tokens emitidos antes del restablecimiento
+  y los refresh tokens se borran junto con los usuarios.
+- **Cupo de almacenamiento** para imágenes subidas, además de la validación por firma del archivo.
+- **Pago simulado**: los datos de la tarjeta se validan en el navegador y nunca se envían.
+- **Costos acotados**: plan gratuito de App Service y Azure SQL con oferta gratuita que se pausa al agotar
+  la cuota (sin cargos). No hay tareas programadas que despierten la base.
+
+## Despliegue
+
+GitHub Actions (`deploy-azure.yml`) corre los tests en cada push a `main`, compila Angular, publica la API
+(ReadyToRun) con la SPA en `wwwroot` y la despliega en Azure App Service autenticándose por **OIDC** (sin
+credenciales guardadas). La base es **Azure SQL serverless**: como se pausa sin uso, la API arranca
+enseguida y la inicializa en segundo plano. Mientras tanto responde `503` con `Retry-After`, y la SPA
+muestra "Despertando el servidor…" y reintenta sola.
 
 ## Cómo correrlo
 
@@ -132,6 +186,9 @@ en producción se sirve todo detrás de HTTPS (`Auth:SecureCookies=true`, valor 
 | Admin | `admin@motorepuestos.com` |
 | Super admin | `superadmin@motorepuestos.com` |
 
+El modo demo (`Demo:Enabled`) está activo en Development y en Docker: protege esas cuentas y restablece los
+datos cada 24 h. Para conservar los datos locales, usá `Demo__Enabled=false`.
+
 ## Tests
 ```bash
 cd backend
@@ -147,11 +204,11 @@ backend/
   src/
     MotoRepuestos.Domain/          entidades y reglas de negocio
     MotoRepuestos.Application/     casos de uso, DTOs, validadores, Result<T>
-    MotoRepuestos.Infrastructure/  EF Core, migraciones, JWT, storage, seed
+    MotoRepuestos.Infrastructure/  EF Core, migraciones, JWT, storage, seed, modo demo
     MotoRepuestos.Api/             controllers, middleware, OpenAPI
   tests/                           unitarios + integración
 frontend/src/app/
-  core/       auth, interceptores, stores (carrito/favoritos), clientes de API, modelos
+  core/       auth, interceptores, stores (carrito/favoritos/demo), clientes de API, modelos
   shared/     componentes UI, pipes, validadores
   layout/     layout de la tienda (header, buscador, drawer del carrito)
   features/   catalog · cart · auth · account · admin   (lazy-loaded)
