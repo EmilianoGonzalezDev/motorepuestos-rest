@@ -57,6 +57,16 @@ public class ApiSurfaceTests(ApiFixture api)
     }
 
     [Fact]
+    public async Task Unknown_api_routes_return_problem_details()
+    {
+        var response = await api.CreateClient().GetAsync("/api/does-not-exist");
+
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        response.Content.Headers.ContentType!.MediaType.ShouldBe("application/problem+json");
+        Body(response).GetProperty("code").GetString().ShouldBe("not_found");
+    }
+
+    [Fact]
     public async Task Protected_endpoints_require_authentication_and_the_right_role()
     {
         var anonymous = api.CreateClient();

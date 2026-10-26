@@ -1,7 +1,9 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using System.IO.Compression;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -118,6 +120,17 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownProxies.Clear();
 });
 
+// Fastest level: the free App Service plan has little CPU, and most of the gain comes from any compression.
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(["image/svg+xml"]);
+});
+builder.Services.Configure<BrotliCompressionProviderOptions>(o => o.Level = CompressionLevel.Fastest);
+builder.Services.Configure<GzipCompressionProviderOptions>(o => o.Level = CompressionLevel.Fastest);
+
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<AppDbContext>("database", tags: ["ready"]);
 
@@ -134,13 +147,18 @@ app.UseForwardedHeaders();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.UseSerilogRequestLogging();
+if (!app.Environment.IsDevelopment()) app.UseHsts();
 
 app.Use(async (context, next) =>
 {
     context.Response.Headers.XContentTypeOptions = "nosniff";
+    context.Response.Headers.XFrameOptions = "DENY";
     context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
     await next();
 });
+
+// Auth responses carry tokens: compressing them would expose them to BREACH-style attacks.
+app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api/auth"), branch => branch.UseResponseCompression());
 
 var imageStorage = app.Services.GetRequiredService<LocalImageStorage>();
 app.UseStaticFiles(new StaticFileOptions
@@ -150,6 +168,9 @@ app.UseStaticFiles(new StaticFileOptions
     // File names are unique (GUIDs), so images can be cached aggressively.
     OnPrepareResponse = ctx => ctx.Context.Response.Headers.CacheControl = "public,max-age=604800,immutable"
 });
+
+var hasSpa = app.HasSpa();
+if (hasSpa) app.UseSpaStaticFiles();
 
 app.UseCors();
 app.UseRateLimiter();
@@ -166,7 +187,9 @@ app.MapHealthChecks("/health/live", new HealthCheckOptions { Predicate = _ => fa
 app.MapHealthChecks("/health/ready", new HealthCheckOptions { Predicate = c => c.Tags.Contains("ready") });
 
 app.MapControllers().WithWriteRateLimits();
-app.MapGet("/", () => Results.Redirect("/scalar")).ExcludeFromDescription();
+app.MapApiNotFound();
+if (hasSpa) app.MapSpaFallback();
+else app.MapGet("/", () => Results.Redirect("/scalar")).ExcludeFromDescription();
 
 await app.Services.InitializeDatabaseAsync();
 await app.RunAsync();

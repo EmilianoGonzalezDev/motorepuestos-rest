@@ -6,6 +6,8 @@ obj/
 .vs/
 TestResults/
 storage/
+# Angular build copied in by the Azure deploy workflow
+backend/src/MotoRepuestos.Api/wwwroot/
 
 # Node / Angular
 node_modules/
