@@ -20,4 +20,7 @@ public sealed class AppSetting
 public static class AppSettingKeys
 {
     public const string LowStockThreshold = "LowStockThreshold";
+
+    /// <summary>UTC time (ISO 8601) of the last public demo data reset.</summary>
+    public const string DemoLastResetAt = "DemoLastResetAt";
 }

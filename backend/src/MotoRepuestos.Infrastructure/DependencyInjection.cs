@@ -55,8 +55,12 @@ public static class DependencyInjection
         services.AddSingleton<LocalImageStorage>();
         services.AddSingleton<IImageStorage>(sp => sp.GetRequiredService<LocalImageStorage>());
         services.AddScoped<DataSeeder>();
+        services.AddScoped<DemoDataResetter>();
+        services.AddSingleton<DemoResetState>();
+        services.AddSingleton<DemoResetService>();
 
         services.AddHostedService<GuestCartCleanupService>();
+        services.AddHostedService<DemoResetScheduler>();
         return services;
     }
 }

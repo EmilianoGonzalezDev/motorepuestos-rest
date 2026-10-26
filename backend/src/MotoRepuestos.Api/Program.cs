@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using MotoRepuestos.Api.Infrastructure;
 using MotoRepuestos.Application;
@@ -12,6 +13,7 @@ using MotoRepuestos.Application.Common;
 using MotoRepuestos.Domain.Users;
 using MotoRepuestos.Infrastructure;
 using MotoRepuestos.Infrastructure.Auth;
+using MotoRepuestos.Infrastructure.Demo;
 using MotoRepuestos.Infrastructure.Persistence;
 using MotoRepuestos.Infrastructure.Storage;
 using Scalar.AspNetCore;
@@ -65,7 +67,7 @@ builder.Services
 
 // Validation parameters come from the same JwtOptions instance used to sign tokens (no drift possible).
 builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
-    .Configure<IOptions<JwtOptions>>((options, jwtOptions) =>
+    .Configure<IOptions<JwtOptions>, DemoResetState>((options, jwtOptions, demoState) =>
     {
         var jwt = jwtOptions.Value;
         options.MapInboundClaims = false;
@@ -81,6 +83,16 @@ builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationSc
             ClockSkew = TimeSpan.FromSeconds(30),
             NameClaimType = "name",
             RoleClaimType = "role"
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = context =>
+            {
+                // After a demo reset the user behind an older token may not exist anymore (ids are reseeded).
+                if (demoState.TokensValidFrom is { } validFrom && context.SecurityToken is JsonWebToken token && token.IssuedAt < validFrom)
+                    context.Fail("Token issued before the last demo data reset.");
+                return Task.CompletedTask;
+            }
         };
     });
 

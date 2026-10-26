@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MotoRepuestos.Infrastructure.Demo;
 using MotoRepuestos.Infrastructure.Persistence.Seed;
 
 namespace MotoRepuestos.Infrastructure.Persistence;
@@ -17,8 +18,8 @@ public sealed class DatabaseOptions
 public static class DatabaseInitializer
 {
     /// <summary>
-    /// Applies migrations and seeds demo data. Retries while SQL Server is still starting
-    /// (typical when the API and the database container boot together).
+    /// Applies migrations, seeds demo data and, in demo mode, resets the data if it is due. Retries while
+    /// SQL Server is still starting (typical when the API and the database container boot together).
     /// </summary>
     public static async Task InitializeDatabaseAsync(this IServiceProvider services, CancellationToken ct = default)
     {
@@ -36,6 +37,7 @@ public static class DatabaseInitializer
                     await db.Database.MigrateAsync(ct);
 
                 await scope.ServiceProvider.GetRequiredService<DataSeeder>().SeedAsync(ct);
+                await scope.ServiceProvider.GetRequiredService<DemoResetService>().EnsureFreshAsync(ct);
                 return;
             }
             catch (Exception ex) when (attempt < maxAttempts && ex is Microsoft.Data.SqlClient.SqlException or TimeoutException)

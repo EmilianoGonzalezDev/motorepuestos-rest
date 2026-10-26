@@ -43,18 +43,51 @@ internal sealed class DataSeeder(
 
     public async Task SeedAsync(CancellationToken ct = default)
     {
-        var seed = options.Value;
-        if (!seed.Enabled) return;
+        if (!options.Value.Enabled) return;
+        await SeedDataAsync(ct);
+    }
 
-        CopyMissingImages(seed.ImagesPath);
+    /// <summary>Seeds whatever is missing regardless of Seed:Enabled (the demo reset always needs the data back).</summary>
+    internal async Task SeedDataAsync(CancellationToken ct = default)
+    {
+        var seed = options.Value;
+        CopyMissingImages();
         await SeedUsersAsync(seed.DemoPassword, ct);
         await SeedCatalogAsync(ct);
         if (seed.DemoOrders) await SeedOrdersAsync(ct);
     }
 
-    private void CopyMissingImages(string imagesPath)
+    /// <summary>
+    /// Deletes stored images that are not part of the seed (uploads made by demo visitors).
+    /// Does nothing if the seed folder is missing or empty, so a bad path can't wipe every image.
+    /// </summary>
+    internal int RemoveNonSeedImages()
     {
-        var source = Path.IsPathRooted(imagesPath) ? imagesPath : Path.Combine(AppContext.BaseDirectory, imagesPath);
+        var source = ResolveSeedImagesPath();
+        var seedFiles = Directory.Exists(source)
+            ? Directory.EnumerateFiles(source).Select(Path.GetFileName).ToHashSet(StringComparer.OrdinalIgnoreCase)
+            : [];
+        if (seedFiles.Count == 0) return 0;
+
+        var removed = 0;
+        foreach (var file in Directory.EnumerateFiles(imageStorage.RootPath))
+        {
+            if (seedFiles.Contains(Path.GetFileName(file))) continue;
+            File.Delete(file);
+            removed++;
+        }
+        return removed;
+    }
+
+    private string ResolveSeedImagesPath()
+    {
+        var imagesPath = options.Value.ImagesPath;
+        return Path.IsPathRooted(imagesPath) ? imagesPath : Path.Combine(AppContext.BaseDirectory, imagesPath);
+    }
+
+    private void CopyMissingImages()
+    {
+        var source = ResolveSeedImagesPath();
         if (!Directory.Exists(source))
         {
             logger.LogWarning("Seed images folder not found: {Path}", source);

@@ -63,7 +63,7 @@ public sealed class SettingsService(
         return new SettingsDto(request.LowStockThreshold);
     }
 
-    /// <summary>Drops cached settings (e.g. after a database restore).</summary>
+    /// <summary>Drops cached settings (e.g. after a demo data reset).</summary>
     public async Task InvalidateAsync(CancellationToken ct = default) =>
         await cache.RemoveAsync(LowStockCacheKey, ct);
 }

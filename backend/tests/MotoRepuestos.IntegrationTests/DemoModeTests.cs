@@ -51,6 +51,46 @@ public class DemoModeTests(ApiFixture api)
     }
 
     [Fact]
+    public async Task Reset_requires_a_valid_token()
+    {
+        var client = api.CreateClient();
+
+        (await client.PostAsync("/api/demo/reset", null)).StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+        (await PostResetAsync(client, "wrong-token")).StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task Reset_now_is_only_for_staff()
+    {
+        var customer = await api.RegisterCustomerAsync();
+
+        (await customer.PostAsync("/api/demo/reset-now", null)).StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task Reset_restores_the_seed_and_signs_everybody_out()
+    {
+        var admin = await api.LoginAdminAsync();
+        var categoryName = $"Visit {Guid.NewGuid():N}"[..18];
+        (await admin.PostAsJsonAsync("/api/categories", new { name = categoryName })).StatusCode.ShouldBe(HttpStatusCode.Created);
+
+        await Task.Delay(1100); // tokens carry "iat" in whole seconds
+        var reset = await PostResetAsync(api.CreateClient(), ApiFixture.ResetToken);
+
+        reset.StatusCode.ShouldBe(HttpStatusCode.OK);
+        (await admin.GetAsync("/api/dashboard")).StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+
+        var freshAdmin = await api.LoginAdminAsync();
+        var categories = await BodyAsync(await freshAdmin.GetAsync($"/api/categories?search={Uri.EscapeDataString(categoryName)}"));
+        categories.GetProperty("items").GetArrayLength().ShouldBe(0);
+        var products = await BodyAsync(await api.CreateClient().GetAsync("/api/catalog/products?search=BATERIA&pageSize=50"));
+        products.GetProperty("items").GetArrayLength().ShouldBeGreaterThanOrEqualTo(4);
+
+        var status = await BodyAsync(await api.CreateClient().GetAsync("/api/demo"));
+        status.GetProperty("lastResetAt").GetDateTime().ShouldBe((await BodyAsync(reset)).GetProperty("resetAt").GetDateTime());
+    }
+
+    [Fact]
     public async Task Registered_users_can_still_edit_their_profile()
     {
         var customer = await api.RegisterCustomerAsync();
@@ -58,5 +98,12 @@ public class DemoModeTests(ApiFixture api)
         var response = await customer.PutAsJsonAsync("/api/account/profile", new { fullName = "Cliente Editado", email = $"edit-{Guid.NewGuid():N}@example.com" });
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+
+    private static async Task<HttpResponseMessage> PostResetAsync(HttpClient client, string token)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/api/demo/reset");
+        request.Headers.Add("X-Demo-Reset-Token", token);
+        return await client.SendAsync(request);
     }
 }

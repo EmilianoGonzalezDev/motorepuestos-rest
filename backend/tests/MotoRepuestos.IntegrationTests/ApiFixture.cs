@@ -21,6 +21,7 @@ public sealed class ApiFixture : IAsyncLifetime
     private string? _storagePath;
 
     public const string DemoPassword = "Demo1234!";
+    public const string ResetToken = "integration-tests-reset-token";
 
     public static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web)
     {
@@ -55,6 +56,7 @@ public sealed class ApiFixture : IAsyncLifetime
             ["RateLimiting__DemoResetPermitPerMinute"] = "100000",
             ["ImageStorage__RootPath"] = _storagePath,
             ["Demo__Enabled"] = "true",
+            ["Demo__ResetToken"] = ResetToken,
             ["Seed__Enabled"] = "true",
             ["Seed__DemoOrders"] = "false",
             ["Seed__ImagesPath"] = Path.Combine(AppContext.BaseDirectory, "SeedData", "images")
