@@ -1,0 +1,29 @@
+# Reset the public demo data to the seed, on demand (Actions > Reset demo data > Run workflow).
+# The app already resets itself when the data is older than 24 h. There is deliberately no schedule:
+# a nightly run would wake the serverless database every day and burn its free monthly quota.
+# Requires repo secret DEMO_RESET_TOKEN (same value as the Web App setting Demo__ResetToken)
+# and repo variable DEMO_APP_URL (e.g. https://<app>.azurewebsites.net, no trailing slash).
+
+name: Reset demo data
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reset:
+    runs-on: ubuntu-latest
+    steps:
+      # The Free plan unloads the app and the database pauses when idle, so the first requests answer
+      # 503 while they wake up; curl retries those (honoring Retry-After) but fails right away on 401/404.
+      - name: Reset demo data
+        env:
+          DEMO_RESET_TOKEN: ${{ secrets.DEMO_RESET_TOKEN }}
+          DEMO_APP_URL: ${{ vars.DEMO_APP_URL }}
+        run: |
+          curl --fail-with-body --silent --show-error \
+            --retry 12 --retry-delay 15 --retry-connrefused --max-time 120 \
+            -X POST -H "X-Demo-Reset-Token: $DEMO_RESET_TOKEN" \
+            "$DEMO_APP_URL/api/demo/reset"

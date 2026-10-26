@@ -2,8 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [main, development]
+    # main runs this workflow through deploy-azure.yml, so it only deploys when the tests pass.
+    branches: [development]
   pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
   backend:
