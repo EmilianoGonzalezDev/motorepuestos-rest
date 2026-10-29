@@ -5,7 +5,8 @@ obj/
 *.suo
 .vs/
 TestResults/
-storage/
+# Images uploaded at runtime. Anchored: Git on Windows ignores case, so "storage/" also matched Infrastructure/Storage/
+backend/src/MotoRepuestos.Api/storage/
 # Angular build copied in by the Azure deploy workflow
 backend/src/MotoRepuestos.Api/wwwroot/
 
