@@ -7,7 +7,7 @@ cambia la arquitectura (y qué se gana y qué se paga) manteniendo el dominio.
 
 ## Demo online
 
-**`https://<app>.azurewebsites.net`** _(link pendiente del primer deploy)_ · la documentación de la API está en `/scalar`
+**<https://motorepuestos-rest.azurewebsites.net>** · documentación de la API en [`/scalar`](https://motorepuestos-rest.azurewebsites.net/scalar)
 
 En la pantalla *Ingresar* hay botones para entrar con un clic. Todas las cuentas usan la contraseña `Demo1234!`.
 
